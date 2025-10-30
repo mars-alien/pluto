@@ -192,9 +192,9 @@ class YouTubeService {
     const {
       q,
       pageToken = '',
-      maxResults = 24,
+      maxResults = 12,
       order = 'relevance',
-      safeSearch = 'moderate',
+      safeSearch = 'strict',
       regionCode = '',
       videoDuration = '',
       relevanceLanguage = '',

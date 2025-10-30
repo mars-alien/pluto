@@ -1,9 +1,5 @@
 import React from 'react';
 
-/**
- * Video Completion Stats Component
- * Shows detailed stats below the video player
- */
 const VideoCompletionStats = ({ 
   video, 
   watchHistory = [], 
@@ -120,19 +116,7 @@ const VideoCompletionStats = ({
         </div>
       </div>
 
-      {/* Video Info */}
-      {/* <div className="mt-4 pt-4 border-t border-gray-200">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <h4 className="font-medium text-gray-800 mb-1">{video.title || 'YouTube Video'}</h4>
-            <p className="text-sm text-gray-600">{video.channel || 'Unknown Channel'}</p>
-          </div>
-          <div className="text-right">
-            <div className="text-sm text-gray-500">Video ID</div>
-            <div className="text-xs font-mono text-gray-400">{video.videoId}</div>
-          </div>
-        </div>
-      </div> */}
+      
     </div>
   );
 };

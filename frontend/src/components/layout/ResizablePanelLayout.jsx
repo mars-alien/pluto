@@ -1,10 +1,6 @@
 import React from 'react';
 import ResizableDivider from '../dashboard/ResizableDivider';
 
-/**
- * Reusable Resizable Panel Layout Component
- * Can be used for any two-panel layout with resizing capability
- */
 const ResizablePanelLayout = ({
   leftPanel,
   rightPanel,

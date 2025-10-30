@@ -1,9 +1,8 @@
 const DashboardService = require('../services/DashboardService');
 const YouTubeService = require('../services/YouTubeService');
+const { blacklist, whitelist } = require('../config/videoFilters');
 
-/**
- * Load a YouTube video for the authenticated user
- */
+
 exports.loadVideo = async (req, res) => {
   try {
     const { youtubeUrl } = req.body;
@@ -32,9 +31,7 @@ exports.loadVideo = async (req, res) => {
   }
 };
 
-/**
- * Get user's watch history
- */
+
 exports.getWatchHistory = async (req, res) => {
   try {
     const userId = req.userId;
@@ -59,9 +56,6 @@ exports.getWatchHistory = async (req, res) => {
   }
 };
 
-/**
- * Update watch progress for a video
- */
 exports.updateWatchProgress = async (req, res) => {
   try {
     const userId = req.userId;
@@ -91,9 +85,7 @@ exports.updateWatchProgress = async (req, res) => {
   }
 };
 
-/**
- * Toggle bookmark status for a video
- */
+
 exports.toggleBookmark = async (req, res) => {
   try {
     const userId = req.userId;
@@ -118,9 +110,6 @@ exports.toggleBookmark = async (req, res) => {
   }
 };
 
-/**
- * Add notes to a video
- */
 exports.addNotes = async (req, res) => {
   try {
     const userId = req.userId;
@@ -145,9 +134,7 @@ exports.addNotes = async (req, res) => {
   }
 };
 
-/**
- * Rate a video
- */
+
 exports.rateVideo = async (req, res) => {
   try {
     const userId = req.userId;
@@ -172,9 +159,7 @@ exports.rateVideo = async (req, res) => {
   }
 };
 
-/**
- * Get bookmarked videos
- */
+
 exports.getBookmarkedVideos = async (req, res) => {
   try {
     const userId = req.userId;
@@ -199,9 +184,7 @@ exports.getBookmarkedVideos = async (req, res) => {
   }
 };
 
-/**
- * Clear user's watch history
- */
+
 exports.clearWatchHistory = async (req, res) => {
   try {
     const userId = req.userId;
@@ -221,9 +204,7 @@ exports.clearWatchHistory = async (req, res) => {
   }
 };
 
-/**
- * Get dashboard statistics
- */
+
 exports.getDashboardStats = async (req, res) => {
   try {
     const userId = req.userId;
@@ -254,7 +235,7 @@ exports.searchYouTube = async (req, res) => {
       pageToken = '',
       maxResults = 24,
       order = 'relevance',
-      safeSearch = 'moderate',
+      safeSearch = 'strict',
       regionCode = '',
       videoDuration = '',
       relevanceLanguage = '',
@@ -265,10 +246,26 @@ exports.searchYouTube = async (req, res) => {
       return res.status(400).json({ message: 'Missing query param: q' });
     }
 
+    const lowerQ = String(q).toLowerCase();
+
+    if (blacklist.some(token => lowerQ.includes(token))) {
+      return res.json({
+        success: true,
+        data: {
+          items: [],
+          nextPageToken: null,
+          prevPageToken: null,
+          totalResults: 0,
+          disclaimer: 'Search results for entertainment content are suppressed. Pluto focuses on developer/educational videos. If you intended to search for developer content, try queries like "react tutorial", "javascript coding", or "web development".'
+        }
+      });
+    }
+
+    // Perform the YouTube search
     const data = await YouTubeService.searchVideos({
       q,
       pageToken,
-      maxResults: Number(maxResults) || 24,
+      maxResults: Number(maxResults) || 12,
       order,
       safeSearch,
       regionCode,
@@ -277,7 +274,33 @@ exports.searchYouTube = async (req, res) => {
       publishedAfter
     });
 
-    res.json({ success: true, data });
+    const filteredItems = (data.items || []).filter(item => {
+      const text = `${item.title || ''} ${item.description || ''} ${item.channelTitle || ''}`.toLowerCase();
+      return whitelist.some(k => text.includes(k));
+    });
+
+    if (!filteredItems.length) {
+      return res.json({
+        success: true,
+        data: {
+          items: [],
+          nextPageToken: null,
+          prevPageToken: null,
+          totalResults: 0,
+          disclaimer: 'No developer/educational videos found for your query. Try searching for terms like "react tutorial", "javascript", "coding" or "web development".'
+        }
+      });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        items: filteredItems,
+        nextPageToken: data.nextPageToken || null,
+        prevPageToken: data.prevPageToken || null,
+        totalResults: filteredItems.length
+      }
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message || 'YouTube search failed' });
   }

@@ -90,7 +90,7 @@ export default function Home() {
              style={{background: 'linear-gradient(96deg, rgba(174, 255, 168, 0.4) 0%, rgba(143, 255, 206, 0.4) 50%, rgba(153, 247, 255, 0.4) 100%)'}}></div>
       </div>
 
-      {/* Custom CSS for animations */}
+      
       <style>{`
         @keyframes blob {
           0%, 100% {
@@ -147,7 +147,7 @@ export default function Home() {
           {/* Right: Form Section */}
           <div className="w-full md:flex-none md:w-[550px] p-8 md:p-12 flex flex-col justify-center">
             <FormCard
-              title="Welcome to Tattva"
+              title="Welcome to Pluto"
               subtitle="Learn the essence, not just the syntax."
             >
             
@@ -193,7 +193,7 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full p-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-orange-500 text-white font-semibold rounded-xl shadow-md hover:shadow-xl disabled:opacity-70 transition-all duration-200 hover:scale-105 active:scale-95"
+                  className="w-full p-4 bg-[#6DD5ED] text-white font-semibold rounded-xl shadow-md disabled:opacity-70 transition-all duration-200 hover:bg-[#57C3D9] hover:shadow-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#6DD5ED]/60"
                 >
                   {loading ? "Checking..." : "Continue"}
                 </button>

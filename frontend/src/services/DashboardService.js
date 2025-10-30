@@ -216,14 +216,17 @@ class DashboardService {
       // Only include optional params when they have meaningful values
       const params = {
         q,
-        maxResults: options.maxResults ?? 24,
+        maxResults: options.maxResults ?? 12,
         order: options.order ?? 'relevance',
-        safeSearch: options.safeSearch ?? 'moderate'
+        safeSearch: options.safeSearch ?? 'strict',
+        // default to 'medium' to exclude short videos unless caller overrides
+        videoDuration: options.videoDuration ?? 'medium'
       };
 
       if (options.pageToken) params.pageToken = options.pageToken;
       if (options.regionCode) params.regionCode = options.regionCode;
-      if (options.videoDuration) params.videoDuration = options.videoDuration;
+  // frontend default already sets videoDuration; keep override logic for explicit empty string
+  if (options.videoDuration === '') delete params.videoDuration;
       if (options.relevanceLanguage) params.relevanceLanguage = options.relevanceLanguage;
       if (options.publishedAfter) params.publishedAfter = options.publishedAfter;
 

@@ -280,7 +280,7 @@ export default function Register() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full p-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-orange-500 text-white font-semibold rounded-xl shadow-md hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 active:scale-95 relative overflow-hidden"
+                  className="w-full p-4 bg-[#6DD5ED] text-white font-semibold rounded-xl shadow-md disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 hover:bg-[#57C3D9] hover:shadow-lg hover:scale-105 active:scale-95 relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#6DD5ED]/60"
                 >
                   <span className="relative z-10 flex items-center justify-center space-x-2">
                     {loading && (
@@ -356,7 +356,7 @@ export default function Register() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full p-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-orange-500 text-white font-semibold rounded-xl shadow-md hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 active:scale-95 relative overflow-hidden"
+                  className="w-full p-4 bg-[#6DD5ED] text-white font-semibold rounded-xl shadow-md disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 hover:bg-[#57C3D9] hover:shadow-lg hover:scale-105 active:scale-95 relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#6DD5ED]/60"
                 >
                   <span className="relative z-10 flex items-center justify-center space-x-2">
                     {loading && (

@@ -1,19 +1,17 @@
 const { Resend } = require('resend');
 
-// Initialize Resend
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Send verification email using Resend
+
 async function sendVerificationEmail(to, code) {
-  // Check if Resend is configured
+
   if (!process.env.RESEND_API_KEY) {
     console.warn('RESEND_API_KEY not configured. Email sending is disabled.');
     throw new Error('Email service not configured');
   }
 
   try {
-    // Use verified domain email if available, otherwise use sandbox
-    // Note: Sandbox domain can only send to verified email addresses
+    
     const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
     
     const { data, error } = await resend.emails.send({

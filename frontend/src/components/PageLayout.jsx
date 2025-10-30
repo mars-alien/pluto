@@ -8,7 +8,7 @@ export default function PageLayout({
   className = "min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-cyan-50 relative overflow-hidden"
 }) {
   return (
-    <div className={`${className} overflow-y-auto h-screen`}>
+    <div className={`${className}  h-screen`}>
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-indigo-400/20 to-orange-400/30 rounded-full blur-3xl animate-pulse"></div>

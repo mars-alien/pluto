@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 
-/**
- * Responsive Editor Panel Component
- * Hidden on small devices, visible on large screens
- * With optional toggle button for mobile
- */
+
 const EditorPanel = ({ 
   children, 
   className = "",
@@ -45,11 +41,8 @@ const EditorPanel = ({
         `}
       >
         {showHeader && (
-          <div className="px-4 py-3 border-b border-gray-200 bg-gray-50 rounded-t-xl flex items-center justify-between">
-            {/* <h3 className="text-sm font-semibold text-gray-700 flex items-center">
-              <span className="mr-2">💻</span>
-              {title}
-            </h3> */}
+          <div className="px-4 py-0 border-b border-gray-200 bg-gray-50 rounded-t-xl flex items-center justify-between">
+           
             
             {/* Close button for mobile when toggled open */}
             {allowMobileToggle && isMobileOpen && (

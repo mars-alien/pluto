@@ -12,7 +12,6 @@ function createToken(user) {
   return jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
 }
 
-// SINGLE user response formatter
 function formatUser(user) {
   return {
     id: user._id,
@@ -23,21 +22,17 @@ function formatUser(user) {
     createdAt: user.createdAt
   };
 }
-
+ 
 // Send verification code
 exports.sendCode = async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) return res.status(400).json({ message: "Email required" });
-
-    // Use VerificationCode model's static method
+ 
     const verificationRecord = await VerificationCode.createCode(email, 'email_verification', CODE_TTL_MINUTES);
     
-    // Temporarily log the code instead of sending email
     console.log(`Verification code for ${email}: ${verificationRecord.code}`);
 
-    
-    // Try to send email, but don't fail if it doesn't work
     try {
       await sendVerificationEmail(email, verificationRecord.code);
     } catch (emailError) {
@@ -51,7 +46,6 @@ exports.sendCode = async (req, res) => {
   }
 };
 
-// Verify code
 exports.verifyCode = async (req, res) => {
   try {
     const { email, code } = req.body;
@@ -65,7 +59,6 @@ exports.verifyCode = async (req, res) => {
       return res.status(400).json({ message: verification.message });
     }
 
-    // Mark user as verified
     const user = await User.findOneAndUpdate(
       { email: email.toLowerCase() },
       { isVerified: true },
@@ -84,7 +77,6 @@ exports.verifyCode = async (req, res) => {
   }
 };
 
-// Register user
 exports.register = async (req, res) => {
   try {
     const { name, email, password, code } = req.body;
@@ -96,8 +88,6 @@ exports.register = async (req, res) => {
     if (typeof name !== 'string' || name.trim().length < 2) {
       return res.status(400).json({ message: 'Name must be at least 2 characters long' });
     }
-
-    // Verify code if provided
     if (code) {
       const verification = await VerificationCode.verifyCode(email, code, 'email_verification');
       if (!verification.success) {
@@ -113,7 +103,6 @@ exports.register = async (req, res) => {
 
     // Create or update user - DON'T manually hash password!
     const user = existingUser || new User({ email: email.toLowerCase() });
-    // Trim and use validated name
     user.name = name.trim();
     user.passwordHash = password; // Pre-save middleware will hash this
     user.isVerified = code ? true : false;
@@ -194,10 +183,6 @@ exports.checkEmail = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
-
-
-
-// ------------------ MANUAL OAUTH (NO PASSPORT) ------------------
 
 // Google OAuth: start
 exports.oauthGoogleStart = async (req, res) => {

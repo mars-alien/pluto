@@ -1,10 +1,6 @@
 import React from 'react';
 import YouTubePlayer from './YoutubePlayer';
-import VideoCompletionStats from './VideoCompletionStats';
 
-/**
- * Enhanced Video Player Panel with custom controls and stats
- */
 const VideoPlayerPanel = ({ 
   video, 
   onClose,
@@ -43,14 +39,6 @@ const VideoPlayerPanel = ({
         />
       </div>
       
-      {/* Video Completion Stats */}
-      <VideoCompletionStats
-        video={video}
-        watchHistory={watchHistory}
-        className="border-t border-gray-200"
-      />
-      
-      {/* Video Info with Close Button */}
       <div className="p-4 bg-white border-t border-gray-200">
         <div className="flex items-start justify-between">
           <div className="flex-1 min-w-0 pr-4">
@@ -65,7 +53,7 @@ const VideoPlayerPanel = ({
             onClick={onClose}
             className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-all flex-shrink-0"
           >
-            ✕ Close
+            ✕ 
           </button>
         </div>
       </div>

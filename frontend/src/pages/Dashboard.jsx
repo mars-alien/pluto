@@ -5,13 +5,20 @@ import useResizablePanels from "../hooks/useResizablePanels";
 import DashboardService from "../services/DashboardService";
 import ResizablePanelLayout from "../components/layout/ResizablePanelLayout";
 
-import DashboardHeader from "../components/dashboard/DashboardHeader";
+import Header from "../components/Header";
 import YouTubeSearch from "../components/dashboard/YouTubeSearch";
 import ScrollableVideoHistory from "../components/dashboard/ScrollableVideoHistory";
 import GraphicalStats from "../components/dashboard/GraphicalStats";
 import VideoPlayerPanel from "../components/dashboard/VideoPlayerPanel";
+
+import { FileProvider } from "../context/FileContext";
+import { EditorSettingsProvider } from "../context/EditorSettingsContext";
+
 import EditorPanel from "../components/dashboard/EditorPanel";
-import MonacoEditor from "../components/dashboard/MonacoEditor";
+import FileTabs from "../components/editor/fileTabs";
+import FileTree from "../components/editor/fileTree";
+import MonacoEditor from "../components/editor/monacoEditor";
+
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -24,6 +31,7 @@ export default function Dashboard() {
   const [watchHistory, setWatchHistory] = useState([]);
   const [currentVideoProgress, setCurrentVideoProgress] = useState(0); // Live progress tracking
   const lastProgressSyncRef = useRef({ ts: 0, pct: 0 });
+  const [showEditorSettings, setShowEditorSettings] = useState(false);
   
   // Resizable panels (60% video, 40% editor by default)
   const {
@@ -114,7 +122,6 @@ export default function Dashboard() {
     }
   }, []);
 
-
   // YouTube Player event handlers
   const handleTimeUpdate = useCallback(async (currentTime, duration) => {
     if (currentVideo?.videoId) {
@@ -166,15 +173,15 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      {/* Header */}
-      <DashboardHeader user={user} onLogout={handleLogout} />
+    <div className="min-h-screen  bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+  {/* Header */}
+  <Header onLogout={handleLogout} />
 
       {/* Main Content */}
-      <main className="max-w-full mx-auto px-2 sm:px-4 lg:px-6 py-4 sm:py-8">
+      <main className="max-w-full mx-auto px-2 mt-12 sm:px-4 lg:px-6 py-4 sm:py-8">
         {!currentVideo ? (
           // Search Interface
-          <div className="max-w-7xl mx-auto space-y-8">
+          <div className="max-w-6xl mx-auto space-y-1">
 
             {/* YouTube Search */}
             <YouTubeSearch onPick={handlePickVideo} />
@@ -211,7 +218,21 @@ export default function Dashboard() {
             }
             rightPanel={
               <EditorPanel title="Code Editor" className="h-full">
-                <MonacoEditor />
+                <FileProvider>
+                  <EditorSettingsProvider>
+                    <div className="flex h-full">
+                      <div className="w-64 border-r bg-gray-900 border-gray-800 h-full">
+                        <FileTree />
+                      </div>
+                      <div className="flex-1 flex flex-col h-full">
+                        <FileTabs />
+                        <div className="flex-1 min-h-0">
+                          <MonacoEditor />
+                        </div>
+                      </div>
+                    </div>
+                  </EditorSettingsProvider>
+                </FileProvider>
               </EditorPanel>
             }
             leftWidth={leftWidth}
