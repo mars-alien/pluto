@@ -17,7 +17,8 @@ import { EditorSettingsProvider } from "../context/EditorSettingsContext";
 import EditorPanel from "../components/dashboard/EditorPanel";
 import FileTabs from "../components/editor/fileTabs";
 import FileTree from "../components/editor/fileTree";
-import MonacoEditor from "../components/editor/monacoEditor";
+
+import MonacoEditor from "../components/editor/MonacoEditor";
 
 
 export default function Dashboard() {
