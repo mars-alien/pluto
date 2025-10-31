@@ -6,7 +6,7 @@ const EditorPanel = ({
   className = "",
   title = "Editor",
   showHeader = true,
-  allowMobileToggle = false  // Option to show toggle button on mobile
+  allowMobileToggle = false  
 }) => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 

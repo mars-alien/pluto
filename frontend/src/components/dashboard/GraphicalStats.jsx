@@ -1,16 +1,12 @@
 import React from 'react';
 
-/**
- * Graphical Stats Component
- * Displays video-related statistics and information with charts
- */
 const GraphicalStats = ({ 
   video, 
   watchHistory = [], 
   className = "",
-  currentVideoProgress = 0 // Live progress from current video
+  currentVideoProgress = 0 
 }) => {
-  // Calculate stats with live updates
+  
   const totalVideos = watchHistory.length;
   const totalWatchedTime = watchHistory.reduce((total, video) => 
     total + (video.watchedSeconds || 0), 0

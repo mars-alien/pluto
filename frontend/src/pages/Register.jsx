@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
-import FormCard from "../components/FormCard";
 import OAuthButtons from "../components/OAuthButtons";
 import api from "../api/api";
 import { useAuth } from "../hooks/useAuth";
@@ -105,40 +104,28 @@ export default function Register() {
   return (
     <PageLayout 
       showBackButton={true}
-      className="min-h-screen bg-gray-50 relative overflow-hidden"
+      className="min-h-screen bg-gradient-to-br from-blue-50 via-pink-50 to-teal-50 relative overflow-hidden"
     >
-      {/* Mesh Gradient Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Base gradient layer */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-orange-50"></div>
-        
-        {/* Floating gradient orbs - Evenly distributed */}
-        <div className="absolute -top-20 -left-20 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob"
-             style={{background: 'linear-gradient(96deg, rgba(99, 102, 241, 0.4) 0%, rgba(139, 92, 246, 0.35) 50%, rgba(168, 85, 247, 0.4) 100%)'}}></div>
-        
-        <div className="absolute -top-20 -right-20 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"
-             style={{background: 'linear-gradient(120deg, rgba(168, 85, 247, 0.4) 0%, rgba(217, 70, 239, 0.35) 50%, rgba(236, 72, 153, 0.4) 100%)'}}></div>
-        
-        <div className="absolute top-1/2 -left-20 -translate-y-1/2 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-1000"
-             style={{background: 'linear-gradient(96deg, rgba(79, 70, 229, 0.4) 0%, rgba(99, 102, 241, 0.35) 50%, rgba(139, 92, 246, 0.4) 100%)'}}></div>
-        
-        <div className="absolute top-1/2 -right-20 -translate-y-1/2 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-3000"
-             style={{background: 'linear-gradient(140deg, rgba(249, 115, 22, 0.35) 0%, rgba(251, 146, 60, 0.4) 50%, rgba(253, 186, 116, 0.35) 100%)'}}></div>
-        
-        <div className="absolute -bottom-20 -left-20 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"
-             style={{background: 'linear-gradient(96deg, rgba(139, 92, 246, 0.4) 0%, rgba(168, 85, 247, 0.35) 50%, rgba(192, 132, 252, 0.4) 100%)'}}></div>
-        
-        <div className="absolute -bottom-20 -right-20 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-5000"
-             style={{background: 'linear-gradient(180deg, rgba(236, 72, 153, 0.35) 0%, rgba(244, 114, 182, 0.4) 50%, rgba(251, 146, 60, 0.35) 100%)'}}></div>
-        
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[550px] h-[550px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-6000"
-             style={{background: 'linear-gradient(220deg, rgba(99, 102, 241, 0.35) 0%, rgba(139, 92, 246, 0.4) 50%, rgba(168, 85, 247, 0.35) 100%)'}}></div>
-        
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[550px] h-[550px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-7000"
-             style={{background: 'linear-gradient(60deg, rgba(217, 70, 239, 0.35) 0%, rgba(236, 72, 153, 0.35) 50%, rgba(249, 115, 22, 0.4) 100%)'}}></div>
-        
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-500"
-             style={{background: 'linear-gradient(96deg, rgba(168, 85, 247, 0.3) 0%, rgba(192, 132, 252, 0.35) 50%, rgba(217, 70, 239, 0.3) 100%)'}}></div>
+      {/* Mesh Gradient Background - Tailwind only */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Top left orb */}
+        <div className="absolute -top-20 -left-20 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-yellow-200 via-green-200 to-cyan-200 mix-blend-multiply blur-3xl"></div>
+        {/* Top right orb */}
+        <div className="absolute -top-20 -right-20 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-yellow-200 via-cyan-200 to-blue-200 mix-blend-multiply blur-3xl"></div>
+        {/* Center left orb */}
+        <div className="absolute top-1/2 -left-20 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-green-200 via-cyan-200 to-blue-200 mix-blend-multiply blur-3xl"></div>
+        {/* Center right orb */}
+        <div className="absolute top-1/2 -right-20 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-cyan-200 via-blue-200 to-teal-200 mix-blend-multiply blur-3xl"></div>
+        {/* Bottom left orb */}
+        <div className="absolute -bottom-20 -left-20 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-cyan-200 via-blue-200 to-teal-200 mix-blend-multiply blur-3xl"></div>
+        {/* Bottom right orb */}
+        <div className="absolute -bottom-20 -right-20 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-green-200 via-cyan-200 to-blue-200 mix-blend-multiply blur-3xl"></div>
+        {/* Center top orb */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[550px] h-[550px] rounded-full bg-gradient-to-tr from-yellow-100 via-cyan-100 to-blue-100 mix-blend-multiply blur-3xl"></div>
+        {/* Center bottom orb */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[550px] h-[550px] rounded-full bg-gradient-to-tr from-cyan-100 via-blue-100 to-teal-100 mix-blend-multiply blur-3xl"></div>
+        {/* Center orb for blending */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-green-100 via-cyan-100 to-blue-100 mix-blend-multiply blur-3xl"></div>
       </div>
 
       {/* Animation CSS */}
@@ -195,16 +182,15 @@ export default function Register() {
         }
       `}</style>
 
-      <div className="w-full max-w-xl mt-12 relative z-10">
-        <FormCard>
+      <div className="w-full max-w-xl mt-4 relative z-10 flex justify-center">
+        <div className="register-card-wrapper  w-full flex justify-center">
+          <div className="register-card">
           {step === "form" ? (
             <>
               {/* Registration Form */}
-              <div className="text-center mb-3">
-                <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-orange-600 bg-clip-text text-transparent mb-3">
-                  Create Account
-                </h1>
-                <p className="text-gray-600 text-base sm:text-lg">Learn the essence, not just the syntax.</p>
+              <div className="text-center mb-1">
+                <h1 className="register-heading">Create Account</h1>
+                <p className="register-subtext">Learn the essence, not just the syntax.</p>
               </div>
 
               {/* Error Message */}
@@ -219,7 +205,7 @@ export default function Register() {
                 </div>
               )}
 
-              <form onSubmit={handleRegister} className="space-y-5">
+              <form onSubmit={handleRegister} className="space-y-2">
                 {/* Name Input */}
                 <div className="relative">
                   <input
@@ -227,7 +213,7 @@ export default function Register() {
                     placeholder="Full Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full p-4 pl-12 text-base rounded-xl bg-white/70 border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-200"
+                    className="register-input"
                     disabled={loading}
                   />
                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
@@ -246,7 +232,7 @@ export default function Register() {
                     placeholder="Email Address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full p-4 pl-12 text-base rounded-xl bg-white/70 border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-200"
+                    className="register-input"
                     disabled={loading}
                   />
                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
@@ -265,7 +251,7 @@ export default function Register() {
                     placeholder="Create Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-4 pl-12 text-base rounded-xl bg-white/70 border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-200"
+                    className="register-input"
                     disabled={loading}
                   />
                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
@@ -280,7 +266,7 @@ export default function Register() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full p-4 bg-[#6DD5ED] text-white font-semibold rounded-xl shadow-md disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 hover:bg-[#57C3D9] hover:shadow-lg hover:scale-105 active:scale-95 relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#6DD5ED]/60"
+                  className="register-primary-btn"
                 >
                   <span className="relative z-10 flex items-center justify-center space-x-2">
                     {loading && (
@@ -292,15 +278,17 @@ export default function Register() {
               </form>
 
               {/* Divider */}
-              <div className="flex items-center my-7">
+              <div className="flex items-center my-3">
                 <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-                <span className="px-4 text-gray-500 font-medium bg-white/70 rounded-full border border-white/40">
+                <span className="px-2 text-gray-500 font-medium bg-white/70 rounded-full border border-white/40">
                   OR
                 </span>
                 <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
               </div>
 
-              <OAuthButtons action="register" />
+              <div className="register-oauth">
+                <OAuthButtons action="register" />
+              </div>
             </>
           ) : (
             <>
@@ -340,7 +328,7 @@ export default function Register() {
                     placeholder="Enter 6-digit code"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
-                    className="w-full p-5 pl-12 text-center text-2xl tracking-widest rounded-xl bg-white/70 border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200"
+                    className="register-input register-code-input"
                     maxLength="6"
                     disabled={loading}
                   />
@@ -356,7 +344,7 @@ export default function Register() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full p-4 bg-[#6DD5ED] text-white font-semibold rounded-xl shadow-md disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 hover:bg-[#57C3D9] hover:shadow-lg hover:scale-105 active:scale-95 relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#6DD5ED]/60"
+                  className="register-primary-btn"
                 >
                   <span className="relative z-10 flex items-center justify-center space-x-2">
                     {loading && (
@@ -394,14 +382,121 @@ export default function Register() {
               Already have an account?{" "}
               <button
                 onClick={() => navigate('/login')}
-                className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
+                className="register-signin-link"
               >
                 Sign in here
               </button>
             </p>
           </div>
-        </FormCard>
+          </div>
+        </div>
       </div>
+    
+    <style>{`
+    
+  /* Removed all custom styles. Only Tailwind utility classes are used for background and effects. */
+
+     
+      .register-card-wrapper { width: 100%; display: flex; justify-content: center; }
+      .register-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        padding: 25px;
+        max-width: 440px;
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      /* Typography */
+      .register-heading {
+        font-family: 'Inter', sans-serif;
+        font-size: 30px;
+        font-weight: 700;
+        color: #1A1D29;
+        margin-bottom: 2px;
+      }
+      .register-subtext {
+        font-size: 16px;
+        font-weight: 400;
+        color: #718096;
+        margin-bottom: 32px;
+      }
+
+      /* INPUTS */
+      .register-input {
+        width: 100%;
+        background: #FFFFFF;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 8px;
+        /* leave room on the left for the inline icon */
+        padding: 12px 16px 12px 48px;
+        box-sizing: border-box;
+        font-size: 16px;
+        color: #1A1D29;
+        transition: all 0.2s ease;
+      }
+      .register-input::placeholder { color: #A0AEC0; }
+      .register-input:focus {
+        border-color: #4A9EE0;
+        box-shadow: 0 0 0 3px rgba(74, 158, 224, 0.1);
+        outline: none;
+      }
+  .register-code-input { text-align: center; font-size: 28px; letter-spacing: 8px; padding: 16px; }
+
+      /* PRIMARY BUTTON */
+      .register-primary-btn {
+        width: 100%;
+        background: #4A9EE0;
+        color: #FFFFFF;
+        padding: 14px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 16px;
+        border: none;
+        transition: all 0.2s ease;
+      }
+      .register-primary-btn:hover:not(:disabled) {
+        background: #3A8ED0;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(74, 158, 224, 0.3);
+      }
+      .register-primary-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+      /* OAUTH BUTTONS */
+      .register-oauth > div > button:first-child {
+        background: #FFFFFF !important;
+        border: 1.5px solid #E2E8F0 !important;
+        color: #1A1D29 !important;
+        padding: 12px 24px !important;
+        border-radius: 8px !important;
+        font-weight: 500 !important;
+      }
+      .register-oauth > div > button:first-child:hover { background: #F7FAFC !important; border-color: #CBD5E0 !important; }
+
+      .register-oauth > div > button:last-child {
+        background: #24292E !important;
+        color: #FFFFFF !important;
+        border: none !important;
+        padding: 12px 24px !important;
+        border-radius: 8px !important;
+        font-weight: 500 !important;
+      }
+      .register-oauth > div > button:last-child:hover { background: #1A1F2E !important; }
+
+      /* Sign-in link */
+      .register-signin-link {
+        color: #4A9EE0;
+        font-weight: 500;
+        text-decoration: none;
+        background: transparent;
+        border: none;
+        padding: 0;
+      }
+      .register-signin-link:hover { color: #3A8ED0; text-decoration: underline; }
+    `}</style>
     </PageLayout>
   );
 }

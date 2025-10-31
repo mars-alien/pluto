@@ -39,6 +39,12 @@ body {
   font-family: var(--font-body); /* Apply body font globally */
 }
 
+/* Ensure the root/html stack always fills the viewport so gradients
+   and page-level backgrounds can't show a white band at the bottom. */
+html, body, #root {
+  height: 100%;
+  min-height: 100%;
+}
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading); /* Apply heading font */
   color: var(--text-primary); /* Default heading color */

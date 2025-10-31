@@ -1,5 +1,4 @@
-import React from 'react';
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
 import { useFileSystem } from '../../context/FileContext';
 import { useEditorSettings } from '../../context/EditorSettingsContext';

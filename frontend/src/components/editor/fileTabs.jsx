@@ -1,5 +1,4 @@
-import React from 'react';
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useFileSystem } from '../../context/FileContext';
 
 const getFileIcon = (fileName) => {

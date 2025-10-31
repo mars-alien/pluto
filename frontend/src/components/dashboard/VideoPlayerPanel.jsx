@@ -27,7 +27,17 @@ const VideoPlayerPanel = ({
   const progress = totalSeconds > 0 ? Math.round((watchedSeconds / totalSeconds) * 100) : 0;
 
   return (
-    <div className={`bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 shadow-lg flex flex-col ${className}`}>
+  <div className={`bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 shadow-lg flex flex-col ${className}`} style={{ position: 'relative', pointerEvents: 'auto' }}>
+      {/* Close Button overlays video area */}
+      <button
+        onClick={onClose}
+        type="button"
+        aria-label="Close Video"
+        className="absolute top-4 right-4 bg-white/90 text-[#1A1D29] w-9 h-9 rounded-full border-none text-xl font-bold cursor-pointer shadow-lg z-30 transition-all flex items-center justify-center hover:bg-white hover:scale-110"
+        style={{ fontWeight: 600, pointerEvents: 'auto' }}
+      >
+        &#10005;
+      </button>
       {/* Video Player */}
       <div className="flex-1 relative min-h-[400px]">
         <YouTubePlayer
@@ -38,7 +48,6 @@ const VideoPlayerPanel = ({
           options={{ startTime: video.resumeAt || 0 }}
         />
       </div>
-      
       <div className="p-4 bg-white border-t border-gray-200">
         <div className="flex items-start justify-between">
           <div className="flex-1 min-w-0 pr-4">
@@ -49,12 +58,6 @@ const VideoPlayerPanel = ({
               <p className="text-sm text-gray-600 truncate">{video.channel}</p>
             )}
           </div>
-          <button
-            onClick={onClose}
-            className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-all flex-shrink-0"
-          >
-            ✕ 
-          </button>
         </div>
       </div>
     </div>

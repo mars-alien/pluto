@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function FormCard({ children, title, subtitle }) {
   return (
-    <div className="w-full max-w-md min-w-[280px] mx-auto">
+    <div className="w-full max-w-md min-w-[380px] mx-auto">
       <div className="bg-white/70 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl p-8 relative overflow-hidden">
         {/* Animated Mesh Gradient Background */}
         <div className="absolute inset-0 overflow-hidden rounded-3xl -z-10">

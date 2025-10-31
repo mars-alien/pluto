@@ -44,40 +44,20 @@ export default function Login() {
   return (
     <PageLayout 
       showBackButton={true}
-      className="min-h-screen bg-gray-50 relative overflow-hidden"
+      className="min-h-screen auth-bg relative overflow-hidden"
     >
-      {/* Mesh Gradient Background - Pink-Purple-Cyan Colors */}
+      {/* Unified Green Gradient Background - Same as Home */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Base gradient layer */}
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-50 via-purple-50 to-cyan-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50"></div>
         
-        {/* Floating gradient orbs - Evenly distributed */}
-        <div className="absolute -top-20 -left-20 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob"
-             style={{background: 'linear-gradient(96deg, rgba(255, 148, 241, 0.5) 7.63%, rgba(151, 138, 255, 0.5) 37.94%, rgba(0, 210, 229, 0.5) 65.23%, rgba(143, 255, 248, 0.5) 92.12%)'}}></div>
-        
-        <div className="absolute -top-20 -right-20 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"
-             style={{background: 'linear-gradient(120deg, rgba(255, 148, 241, 0.5) 7.63%, rgba(151, 138, 255, 0.5) 37.94%, rgba(0, 210, 229, 0.5) 65.23%, rgba(143, 255, 248, 0.5) 92.12%)'}}></div>
-        
-        <div className="absolute top-1/2 -left-20 -translate-y-1/2 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-1000"
-             style={{background: 'linear-gradient(96deg, rgba(151, 138, 255, 0.5) 0%, rgba(0, 210, 229, 0.5) 50%, rgba(143, 255, 248, 0.5) 100%)'}}></div>
-        
-        <div className="absolute top-1/2 -right-20 -translate-y-1/2 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-3000"
-             style={{background: 'linear-gradient(140deg, rgba(0, 210, 229, 0.5) 0%, rgba(143, 255, 248, 0.5) 50%, rgba(255, 148, 241, 0.45) 100%)'}}></div>
-        
-        <div className="absolute -bottom-20 -left-20 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"
-             style={{background: 'linear-gradient(96deg, rgba(143, 255, 248, 0.5) 0%, rgba(0, 210, 229, 0.5) 50%, rgba(151, 138, 255, 0.5) 100%)'}}></div>
-        
-        <div className="absolute -bottom-20 -right-20 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-5000"
-             style={{background: 'linear-gradient(180deg, rgba(255, 148, 241, 0.45) 0%, rgba(151, 138, 255, 0.5) 50%, rgba(0, 210, 229, 0.5) 100%)'}}></div>
-        
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[550px] h-[550px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-6000"
-             style={{background: 'linear-gradient(220deg, rgba(255, 148, 241, 0.45) 0%, rgba(151, 138, 255, 0.5) 50%, rgba(143, 255, 248, 0.45) 100%)'}}></div>
-        
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[550px] h-[550px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-7000"
-             style={{background: 'linear-gradient(60deg, rgba(0, 210, 229, 0.5) 0%, rgba(143, 255, 248, 0.45) 50%, rgba(255, 148, 241, 0.45) 100%)'}}></div>
-        
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-500"
-             style={{background: 'linear-gradient(96deg, rgba(151, 138, 255, 0.4) 0%, rgba(0, 210, 229, 0.4) 50%, rgba(143, 255, 248, 0.4) 100%)'}}></div>
+        {/* Animated floating gradient orbs */}
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className="absolute -top-20 -left-20 w-96 h-96 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+          <div className="absolute -top-20 -right-20 w-96 h-96 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-20 left-20 w-96 h-96 bg-cyan-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+          <div className="absolute bottom-20 -right-20 w-96 h-96 bg-emerald-300 rounded-full mix-blend-multiply filter blur-3xl opacity-60 animate-blob animation-delay-6000"></div>
+        </div>
       </div>
 
       {/* Animation CSS */}
@@ -101,36 +81,16 @@ export default function Login() {
           animation: blob 20s infinite ease-in-out;
         }
         
-        .animation-delay-500 {
-          animation-delay: 0.5s;
-        }
-        
-        .animation-delay-1000 {
-          animation-delay: 1s;
-        }
-        
         .animation-delay-2000 {
           animation-delay: 2s;
-        }
-        
-        .animation-delay-3000 {
-          animation-delay: 3s;
         }
         
         .animation-delay-4000 {
           animation-delay: 4s;
         }
         
-        .animation-delay-5000 {
-          animation-delay: 5s;
-        }
-        
         .animation-delay-6000 {
           animation-delay: 6s;
-        }
-        
-        .animation-delay-7000 {
-          animation-delay: 7s;
         }
       `}</style>
 
@@ -138,10 +98,8 @@ export default function Login() {
         <FormCard>
           {/* Title */}
           <div className="text-center mb-6">
-            <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-orange-600 bg-clip-text text-transparent mb-3">
-              Welcome Back
-            </h1>
-            <p className="text-gray-600 text-base sm:text-lg">Sign in to your account</p>
+            <h1 className="auth-heading">Welcome Back</h1>
+            <p className="auth-subtext">Sign in to your account</p>
           </div>
 
           {/* Error Message */}
@@ -157,7 +115,7 @@ export default function Login() {
           )}
 
           {/* Login Form */}
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-4">
             {/* Email Input */}
             <div className="relative">
               <input
@@ -165,7 +123,7 @@ export default function Login() {
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-4 pl-12 text-base rounded-xl bg-white/70 border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-200"
+                className="auth-input"
                 disabled={loading}
               />
               <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
@@ -184,7 +142,7 @@ export default function Login() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-4 pl-12 text-base rounded-xl bg-white/70 border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-200"
+                className="auth-input"
                 disabled={loading}
               />
               <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
@@ -196,22 +154,11 @@ export default function Login() {
               </div>
             </div>
 
-            {/* Forgot Password Link */}
-            {/* <div className="text-right">
-              <button
-                type="button"
-                onClick={handleForgotPassword}
-                className="text-sm text-purple-600 hover:text-purple-700 font-medium transition-colors duration-200"
-              >
-                Forgot password?
-              </button>
-            </div> */}
-
             {/* Login Button */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full p-4 bg-[#6DD5ED] text-white font-semibold rounded-xl shadow-md disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 hover:bg-[#57C3D9] hover:shadow-lg hover:scale-105 active:scale-95 relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#6DD5ED]/60"
+              className="auth-primary-btn"
             >
               <span className="relative z-10 flex items-center justify-center space-x-2">
                 {loading && (
@@ -223,26 +170,26 @@ export default function Login() {
           </form>
 
           {/* Divider */}
-          <div className="flex items-center my-7">
+          <div className="flex items-center my-3">
             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-            <span className="px-4 text-gray-500 font-medium bg-white/70 rounded-full border border-white/40">
+            <span className="px-2 text-gray-500 font-medium bg-white/70 rounded-full border border-white/40">
               OR
             </span>
             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
           </div>
 
           {/* OAuth Buttons */}
-          <div className="space-y-3">
+          <div className="auth-oauth">
             <OAuthButtons action="login" />
           </div>
 
           {/* Footer */}
-          <div className="mt-4 pt-4 border-t border-gray-200/50 text-center">
+          <div className="mt-6 pt-4 border-t border-gray-200/50 text-center">
             <p className="text-sm sm:text-base text-gray-600">
               Don't have an account?{" "}
               <button
                 onClick={() => navigate('/register')}
-                className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
+                className="auth-link"
               >
                 Create one here
               </button>
@@ -250,6 +197,116 @@ export default function Login() {
           </div>
         </FormCard>
       </div>
+    
+    <style>{`
+     
+      .auth-bg {
+        background: linear-gradient(135deg, rgba(232,244,251,0.7) 0%, rgba(255,240,241,0.7) 50%, rgba(232,251,247,0.7) 100%);
+      }
+      
+      .auth-heading { 
+        font-family: 'Inter', sans-serif; 
+        font-size: 30px; 
+        font-weight: 700; 
+        color: #1A1D29; 
+        margin-bottom: 8px; 
+      }
+      
+      .auth-subtext { 
+        font-size: 16px; 
+        font-weight: 400; 
+        color: #718096; 
+        margin-bottom: 24px; 
+      }
+      
+      .auth-input { 
+        width: 100%; 
+        background: #FFFFFF; 
+        border: 1.5px solid #E2E8F0; 
+        border-radius: 8px; 
+        padding: 12px 16px 12px 48px; 
+        box-sizing: border-box; 
+        font-size: 16px; 
+        color: #1A1D29; 
+        transition: all 0.2s ease; 
+      }
+      
+      .auth-input::placeholder { 
+        color: #A0AEC0; 
+      }
+      
+      .auth-input:focus { 
+        border-color: #4A9EE0; 
+        box-shadow: 0 0 0 3px rgba(74,158,224,0.1); 
+        outline: none; 
+      }
+      
+      .auth-primary-btn { 
+        width: 100%; 
+        background: #4A9EE0; 
+        color: #FFFFFF; 
+        padding: 14px 24px; 
+        border-radius: 8px; 
+        font-weight: 500; 
+        font-size: 16px; 
+        border: none; 
+        transition: all 0.2s ease; 
+        cursor: pointer;
+      }
+      
+      .auth-primary-btn:hover:not(:disabled) { 
+        background: #3A8ED0; 
+        transform: translateY(-1px); 
+        box-shadow: 0 4px 12px rgba(74,158,224,0.3); 
+      }
+      
+      .auth-primary-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+      
+      .auth-oauth > div > button:first-child { 
+        background: #FFFFFF !important; 
+        border: 1.5px solid #E2E8F0 !important; 
+        color: #1A1D29 !important; 
+        padding: 12px 24px !important; 
+        border-radius: 8px !important; 
+        font-weight: 500 !important; 
+      }
+      
+      .auth-oauth > div > button:first-child:hover { 
+        background: #F7FAFC !important; 
+        border-color: #CBD5E0 !important; 
+      }
+      
+      .auth-oauth > div > button:last-child { 
+        background: #24292E !important; 
+        color: #FFFFFF !important; 
+        border: none !important; 
+        padding: 12px 24px !important; 
+        border-radius: 8px !important; 
+        font-weight: 500 !important; 
+      }
+      
+      .auth-oauth > div > button:last-child:hover { 
+        background: #1A1F2E !important; 
+      }
+      
+      .auth-link { 
+        color: #4A9EE0; 
+        font-weight: 500; 
+        text-decoration: none; 
+        background: transparent; 
+        border: none; 
+        padding: 0; 
+        cursor: pointer;
+      }
+      
+      .auth-link:hover { 
+        color: #3A8ED0; 
+        text-decoration: underline; 
+      }
+    `}</style>
     </PageLayout>
   );
 }
