@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 export default function OAuthCallback() {
   const location = useLocation();
   const { setToken } = useAuth();
-  const navigate = useNavigate();
   const [status, setStatus] = useState('Processing...');
 
   useEffect(() => {
     // Parse hash fragment (e.g., #/oauth/callback?token=abc)
-    const hash = location.hash.substring(1); // Remove #
+    const hash = location.hash.substring(1);
     const params = new URLSearchParams(hash.split('?')[1] || '');
     
     console.log('🔄 OAuth Callback - Processing...');
@@ -23,7 +22,7 @@ export default function OAuthCallback() {
     if (error) {
       console.error('❌ OAuth Error:', error);
       setStatus(`Authentication failed: ${error}`);
-      setTimeout(() => navigate('/'), 3000);
+      setTimeout(() => window.location.href = '/', 3000);
       return;
     }
     
@@ -32,17 +31,17 @@ export default function OAuthCallback() {
       setStatus('Authentication successful! Redirecting...');
       setToken(token);
       
-      // Clear token from URL for security
-      window.history.replaceState({}, document.title, window.location.pathname);
+      // SECURITY: Clear token from URL and history
+      window.history.replaceState({}, document.title, '/');
       
-      // Redirect immediately without delay
-      navigate('/dashboard');
+      // FORCE redirect to dashboard (bypass React Router)
+      window.location.href = '/#/dashboard';
     } else {
       console.warn('⚠️ No token found in callback');
       setStatus('No authentication token found. Redirecting...');
-      setTimeout(() => navigate('/'), 2000);
+      setTimeout(() => window.location.href = '/', 2000);
     }
-  }, [location, navigate, setToken]);
+  }, [location, setToken]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-green-50">
