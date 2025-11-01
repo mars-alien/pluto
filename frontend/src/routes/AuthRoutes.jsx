@@ -26,6 +26,7 @@ export default function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/oauth/callback" element={<OAuthCallback />} />
+        <Route path="/auth/callback" element={<OAuthCallback />} />
         <Route 
           path="/dashboard" 
            element={
