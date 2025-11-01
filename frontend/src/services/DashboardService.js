@@ -231,7 +231,40 @@ class DashboardService {
       if (options.publishedAfter) params.publishedAfter = options.publishedAfter;
 
       const response = await API.get('/dashboard/youtube/search', { params });
-      if (response.data.success) return response.data.data;
+      if (response.data.success) {
+        const searchResults = response.data.data;
+        
+        // Check bookmark status for each video if user is authenticated
+        if (searchResults.items && searchResults.items.length > 0) {
+          try {
+            // Get all video IDs
+            const videoIds = searchResults.items.map(video => video.videoId);
+            
+            // Check bookmark status for all videos in one request
+            const bookmarkResponse = await API.post('/dashboard/bookmarks/check', { videoIds });
+            
+            if (bookmarkResponse.data.success) {
+              const bookmarkStatus = bookmarkResponse.data.data;
+              
+              // Update each video with its bookmark status
+              searchResults.items = searchResults.items.map(video => ({
+                ...video,
+                favorited: bookmarkStatus[video.videoId] || false
+              }));
+            }
+          } catch (error) {
+            // If bookmark checking fails, continue with original results
+            console.warn('Failed to check bookmark status for search results:', error);
+            // Set all videos as not favorited
+            searchResults.items = searchResults.items.map(video => ({
+              ...video,
+              favorited: false
+            }));
+          }
+        }
+        
+        return searchResults;
+      }
       throw new Error(response.data.message || 'Search failed');
     } catch (error) {
       console.error('YouTube search error:', error);

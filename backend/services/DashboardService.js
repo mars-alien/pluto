@@ -1,15 +1,11 @@
 const mongoose = require('mongoose');
 const Video = require('../models/Video');
 const WatchHistory = require('../models/WatchHistory');
+const Bookmark = require('../models/Bookmark');
 const YouTubeService = require('./YouTubeService');
 
 class DashboardService {
-  /**
-   * Load and process a YouTube video for a user
-   * @param {string} userId - User ID
-   * @param {string} youtubeUrl - YouTube URL
-   * @returns {Promise<Object>} - Processed video data with watch history
-   */
+ 
   async loadVideo(userId, youtubeUrl) {
     try {
       // Process the YouTube URL
@@ -24,13 +20,16 @@ class DashboardService {
         description: videoData.description || ""
       });
 
-      // Find or create watch history record
+      // Find or create watch history record (only when video is actually being watched)
       const watchHistory = await WatchHistory.findOrCreate(userId, videoData.videoId, {
         videoId: videoData.videoId,
         title: videoData.title,
         channel: videoData.channel,
         thumbnail: videoData.thumbnail
       });
+
+      // Check if video is bookmarked
+      const isBookmarked = await Bookmark.isBookmarked(userId, videoData.videoId);
 
       return {
         video: {
@@ -50,7 +49,7 @@ class DashboardService {
           lastWatchedAt: watchHistory.lastWatchedAt,
           watchCount: watchHistory.watchCount,
           completed: watchHistory.completed,
-          bookmarked: watchHistory.bookmarked
+          bookmarked: isBookmarked // Get from separate Bookmark model
         }
       };
     } catch (error) {
@@ -69,6 +68,20 @@ class DashboardService {
     try {
       const watchHistory = await WatchHistory.getUserHistory(userId, limit, page);
       
+      // Get all video IDs to check bookmark status
+      const videoIds = watchHistory.map(record => record.videoId);
+      const bookmarkedVideoIds = await Promise.all(
+        videoIds.map(async (videoId) => {
+          const isBookmarked = await Bookmark.isBookmarked(userId, videoId);
+          return { videoId, isBookmarked };
+        })
+      );
+      
+      const bookmarkMap = bookmarkedVideoIds.reduce((map, item) => {
+        map[item.videoId] = item.isBookmarked;
+        return map;
+      }, {});
+      
       return watchHistory.map(record => ({
         _id: record._id,
         videoId: record.videoId,
@@ -82,7 +95,7 @@ class DashboardService {
         lastWatchedAt: record.lastWatchedAt,
         watchCount: record.watchCount,
         completed: record.completed,
-        bookmarked: record.bookmarked,
+        bookmarked: bookmarkMap[record.videoId] || false, // Get from Bookmark model
         notes: record.notes,
         rating: record.rating
       }));
@@ -101,15 +114,69 @@ class DashboardService {
    */
   async updateWatchProgress(userId, videoId, watchedSeconds, totalSeconds = null) {
     try {
-      const watchHistory = await WatchHistory.updateProgress(
-        userId, 
-        videoId, 
-        watchedSeconds, 
-        totalSeconds
-      );
+      // Get video data for watch history
+      const video = await Video.findOne({ videoId });
+      if (!video) {
+        throw new Error('Video not found');
+      }
 
-      if (!watchHistory) {
-        throw new Error('Watch history record not found');
+      // First try to find existing record
+      let watchHistory = await WatchHistory.findOne({ user: userId, videoId });
+      
+      if (watchHistory) {
+        // Update existing record
+        watchHistory = await WatchHistory.findOneAndUpdate(
+          { user: userId, videoId },
+          {
+            $set: {
+              watchedSeconds: watchedSeconds,
+              ...(totalSeconds && { totalSeconds: totalSeconds }),
+              lastWatchedAt: new Date()
+            },
+            $inc: {
+              watchCount: 1
+            }
+          },
+          { new: true, runValidators: true }
+        );
+      } else {
+        // Create new record
+        try {
+          watchHistory = new WatchHistory({
+            user: userId,
+            video: video._id,
+            videoId: videoId,
+            watchedSeconds: watchedSeconds,
+            ...(totalSeconds && { totalSeconds: totalSeconds }),
+            lastWatchedAt: new Date(),
+            watchCount: 1
+          });
+          await watchHistory.save();
+        } catch (error) {
+          // If duplicate key error (race condition), try to find existing record
+          if (error.code === 11000) {
+            watchHistory = await WatchHistory.findOneAndUpdate(
+              { user: userId, videoId },
+              {
+                $set: {
+                  watchedSeconds: watchedSeconds,
+                  ...(totalSeconds && { totalSeconds: totalSeconds }),
+                  lastWatchedAt: new Date()
+                },
+                $inc: {
+                  watchCount: 1
+                }
+              },
+              { new: true, runValidators: true }
+            );
+            
+            if (!watchHistory) {
+              throw new Error('Failed to create or update watch history record');
+            }
+          } else {
+            throw error;
+          }
+        }
       }
 
       return {
@@ -130,23 +197,44 @@ class DashboardService {
    * @param {string} userId - User ID
    * @param {string} videoId - Video ID
    * @param {boolean} bookmarked - Bookmark status
-   * @returns {Promise<Object>} - Updated watch history
+   * @returns {Promise<Object>} - Updated bookmark status
    */
   async toggleBookmark(userId, videoId, bookmarked) {
     try {
-      const watchHistory = await WatchHistory.findOne({ user: userId, videoId });
-      
-      if (!watchHistory) {
-        throw new Error('Watch history record not found');
+      if (bookmarked) {
+        // Add bookmark
+        let video = await Video.findOne({ videoId });
+        if (!video) {
+          // Fetch video metadata for required fields
+          const videoData = await YouTubeService.fetchVideoMetadata(videoId);
+          video = new Video({
+            videoId,
+            title: videoData.title || "Unknown",
+            channel: videoData.channel || "Unknown",
+            thumbnail: videoData.thumbnail || `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+            description: videoData.description || ""
+          });
+          await video.save();
+        }
+
+        const bookmark = await Bookmark.addBookmark(userId, videoId, {
+          videoId,
+          title: video.title,
+          channel: video.channel,
+          thumbnail: video.thumbnail
+        });
+
+        return {
+          _id: bookmark._id,
+          bookmarked: true
+        };
+      } else {
+        // Remove bookmark
+        await Bookmark.removeBookmark(userId, videoId);
+        return {
+          bookmarked: false
+        };
       }
-
-      watchHistory.bookmarked = bookmarked;
-      await watchHistory.save();
-
-      return {
-        _id: watchHistory._id,
-        bookmarked: watchHistory.bookmarked
-      };
     } catch (error) {
       throw new Error(`Failed to update bookmark: ${error.message}`);
     }
@@ -183,43 +271,16 @@ class DashboardService {
    * Rate a video
    * @param {string} userId - User ID
    * @param {string} videoId - Video ID
-   * @param {number} rating - Rating (1-5)
-   * @returns {Promise<Object>} - Updated watch history
-   */
-  async rateVideo(userId, videoId, rating) {
-    try {
-      if (rating < 1 || rating > 5) {
-        throw new Error('Rating must be between 1 and 5');
-      }
-
-      const watchHistory = await WatchHistory.findOne({ user: userId, videoId });
-      
-      if (!watchHistory) {
-        throw new Error('Watch history record not found');
-      }
-
-      watchHistory.rating = rating;
-      await watchHistory.save();
-
-      return {
-        _id: watchHistory._id,
-        rating: watchHistory.rating
-      };
-    } catch (error) {
       throw new Error(`Failed to update rating: ${error.message}`);
     }
   }
-
-  /**
-   * Get bookmarked videos
-   * @param {string} userId - User ID
    * @param {number} limit - Number of records to return
    * @param {number} page - Page number
    * @returns {Promise<Array>} - Bookmarked videos
    */
-  async getBookmarkedVideos(userId, limit = 10, page = 1) {
+  async getBookmarkedVideos(userId, limit = 20, page = 1) {
     try {
-      const bookmarkedVideos = await WatchHistory.getBookmarkedVideos(userId, limit, page);
+      const bookmarkedVideos = await Bookmark.getUserBookmarks(userId, limit, page);
       
       return bookmarkedVideos.map(record => ({
         _id: record._id,
@@ -228,15 +289,38 @@ class DashboardService {
         channel: record.video?.channel || "Unknown",
         thumbnail: record.video?.thumbnail || "",
         duration: record.video?.duration || "Unknown",
-        watchedSeconds: record.watchedSeconds,
-        totalSeconds: record.totalSeconds,
-        progressPercentage: record.progressPercentage,
-        lastWatchedAt: record.lastWatchedAt,
+        bookmarkedAt: record.bookmarkedAt,
         notes: record.notes,
-        rating: record.rating
+        tags: record.tags,
+        folder: record.folder,
+        favorited: true // Always true for bookmarked videos
       }));
     } catch (error) {
       throw new Error(`Failed to get bookmarked videos: ${error.message}`);
+    }
+  }
+
+  /**
+   * Check bookmark status for multiple videos
+   * @param {string} userId - User ID
+   * @param {Array} videoIds - Array of video IDs to check
+   * @returns {Promise<Object>} - Bookmark status map
+   */
+  async checkBookmarkStatus(userId, videoIds) {
+    try {
+      const bookmarkStatus = {};
+      
+      // Get all bookmarks for the user
+      const bookmarks = await Bookmark.find({ user: userId, videoId: { $in: videoIds } });
+      
+      // Create a map of videoId -> bookmark status
+      videoIds.forEach(videoId => {
+        bookmarkStatus[videoId] = bookmarks.some(bookmark => bookmark.videoId === videoId);
+      });
+      
+      return bookmarkStatus;
+    } catch (error) {
+      throw new Error(`Failed to check bookmark status: ${error.message}`);
     }
   }
 
@@ -263,7 +347,7 @@ class DashboardService {
     try {
       const totalVideos = await WatchHistory.countDocuments({ user: userId });
       const completedVideos = await WatchHistory.countDocuments({ user: userId, completed: true });
-      const bookmarkedVideos = await WatchHistory.countDocuments({ user: userId, bookmarked: true });
+      const bookmarkedVideos = await Bookmark.countDocuments({ user: userId }); // Use Bookmark model
       
       // Get total watch time
       const watchTimeResult = await WatchHistory.aggregate([

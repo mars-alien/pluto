@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const dashboardRoutes = require('./routes/dashboard'); 
+const performanceRoutes = require('./routes/performance');
+const wishlistRoutes = require('./routes/wishlistRoutes');
 
 const authRoutes = require('./routes/auth');
 
@@ -20,7 +22,9 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
-app.use('/api/dashboard', dashboardRoutes); 
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/performance', performanceRoutes);
+app.use('/api/wishlist', wishlistRoutes); 
 
 app.get('/', (req, res) => {
   res.json({ message: 'Backend is running ' });

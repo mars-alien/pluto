@@ -1,14 +1,25 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import Logo from '../../asset/Logo.png';
 
-export default function Header({ showBackButton = false, onLogout, user, right }) {
+export default function Header({ showBackButton = false, onLogout, user, right, backTo = '/', onLogoClick }) {
   const navigate = useNavigate();
+  const { user: authUser } = useAuth();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-[#6DD5ED] to-[#2196F3] bg-opacity-95 backdrop-blur-lg border-b border-transparent shadow-sm text-white">
       
-      <div className="absolute left-3 ml-5  sm:left-4 md:left-6 top-1/2 transform -translate-y-1/2 flex items-center">
+      <div 
+        className={`absolute left-3 ml-5  sm:left-4 md:left-6 top-1/2 transform -translate-y-1/2 flex items-center ${authUser ? 'cursor-pointer hover:opacity-80' : ''} transition-opacity`}
+        onClick={() => {
+          if (onLogoClick) {
+            onLogoClick();
+          } else if (authUser) {
+            navigate('/dashboard');
+          }
+        }}
+      >
         <img src={Logo} alt="Pluto logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl object-cover shadow-md mr-3" />
         <span className="hidden sm:inline text-xl sm:text-2xl font-bold text-white">Pluto</span>
       </div>
@@ -22,7 +33,7 @@ export default function Header({ showBackButton = false, onLogout, user, right }
       <div className="absolute right-3 sm:right-4 md:right-6 top-1/2 transform -translate-y-1/2 flex items-center space-x-2 sm:space-x-3">
         {showBackButton && (
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate(backTo)}
             className="inline-flex items-center mr-5 px-2.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg transition-all duration-200 hover:shadow-md active:scale-95"
           >
             <svg

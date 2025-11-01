@@ -5,6 +5,9 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import OAuthCallback from '../pages/OAuthCallback';
 import Dashboard from '../pages/Dashboard';
+import Wishlist from '../pages/Wishlist';
+import Progress from '../pages/Progress';
+import Editor from '../pages/Editor';
 
 import { useAuth } from '../hooks/useAuth';
 
@@ -30,7 +33,30 @@ export default function AppRoutes() {
             <Dashboard />
            </PrivateRoute>
         } />
-         
+        <Route 
+          path="/dashboard/wishlist" 
+          element={
+            <PrivateRoute>
+              <Wishlist />
+            </PrivateRoute>
+          }
+        />
+        <Route 
+          path="/dashboard/progress" 
+          element={
+            <PrivateRoute>
+              <Progress />
+            </PrivateRoute>
+          }
+        />
+        <Route 
+          path="/dashboard/editor/:videoId?" 
+          element={
+            <PrivateRoute>
+              <Editor />
+            </PrivateRoute>
+          }
+        />
        
       </Routes>
     </Router>

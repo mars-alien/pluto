@@ -184,6 +184,30 @@ exports.getBookmarkedVideos = async (req, res) => {
   }
 };
 
+exports.checkBookmarkStatus = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { videoIds } = req.body;
+
+    if (!videoIds || !Array.isArray(videoIds)) {
+      return res.status(400).json({ message: "Video IDs array is required" });
+    }
+
+    const bookmarkStatus = await DashboardService.checkBookmarkStatus(userId, videoIds);
+    
+    res.json({
+      success: true,
+      data: bookmarkStatus
+    });
+  } catch (error) {
+    console.error('Check bookmark status error:', error);
+    res.status(500).json({ 
+      success: false,
+      message: error.message || "Failed to check bookmark status"
+    });
+  }
+};
+
 
 exports.clearWatchHistory = async (req, res) => {
   try {

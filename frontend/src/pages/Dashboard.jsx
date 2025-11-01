@@ -3,12 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import useResizablePanels from "../hooks/useResizablePanels";
 import DashboardService from "../services/DashboardService";
-import ResizablePanelLayout from "../components/layout/ResizablePanelLayout";
+import WishlistService from "../services/WishlistService";
+import PageLayout from "../components/PageLayout";
 
-import Header from "../components/Header";
 import YouTubeSearch from "../components/dashboard/YouTubeSearch";
-import ScrollableVideoHistory from "../components/dashboard/ScrollableVideoHistory";
-import GraphicalStats from "../components/dashboard/GraphicalStats";
 import VideoPlayerPanel from "../components/dashboard/VideoPlayerPanel";
 
 import { FileProvider } from "../context/FileContext";
@@ -76,14 +74,29 @@ export default function Dashboard() {
     try {
       const url = `https://www.youtube.com/watch?v=${video.videoId}`;
       const result = await DashboardService.loadVideo(url);
-      setCurrentVideo(result.video);
-      // Refresh watch history
-      const updatedHistory = await DashboardService.getWatchHistory(10, 1);
-      setWatchHistory(updatedHistory || []);
+      
+      // Navigate to editor with video
+      navigate(`/dashboard/editor/${video.videoId}`, { 
+        state: { 
+          video: result.video,
+          url: url
+        } 
+      });
     } catch (err) {
       setError(err.message || "Failed to load video. Please try again.");
     } finally {
       setIsLoading(false);
+    }
+  }, [navigate]);
+
+  const handleAddToWishlist = useCallback(async (video) => {
+    try {
+      await WishlistService.addToWishlist(video);
+      // Show success message or update UI
+      console.log('Video added to wishlist successfully');
+    } catch (err) {
+      console.error('Failed to add video to wishlist:', err);
+      setError(err.message || "Failed to add video to wishlist.");
     }
   }, []);
 
@@ -143,7 +156,7 @@ export default function Dashboard() {
             Math.floor(duration)
           );
         } catch (error) {
-          console.error('Error updating watch progress:', error);
+          console.error('Dashboard: Error updating watch progress:', error);
         }
       }
     }
@@ -173,80 +186,187 @@ export default function Dashboard() {
     return Math.round((watchedSeconds / totalSeconds) * 100);
   }, []);
 
-  return (
-    <div className="min-h-screen  bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-  {/* Header */}
-  <Header onLogout={handleLogout} />
+  if (!currentVideo) {
+    return (
+      <PageLayout 
+        onLogout={handleLogout} 
+        className="min-h-screen relative overflow-hidden"
+        headerRight={
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => navigate('/dashboard/progress')}
+            className="inline-flex items-center px-3 py-1.5 text-xs sm:text-sm font-medium text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg transition-all duration-200"
+            title="Learning Performance"
+          >
+            Performance
+          </button>
+          <button
+            onClick={() => navigate('/dashboard/wishlist')}
+            className="inline-flex items-center px-3 py-1.5 text-xs sm:text-sm font-medium text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg transition-all duration-200"
+            title="Wishlist & History"
+          >
+            Wishlist
+          </button>
+        </div>
+      }>
+        {/* Mesh Gradient Background - Same as Home Page */}
+        <div className="absolute inset-0 overflow-hidden bg-white">
+          {/* Top left area */}
+          <div className="absolute -top-20 -left-20 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob"
+               style={{background: 'linear-gradient(96deg, rgba(254, 245, 113, 0.5) 0%, rgba(174, 255, 168, 0.5) 29.94%, rgba(143, 255, 206, 0.5) 66.98%, rgba(153, 247, 255, 0.5) 100%)'}}></div>
+          
+          {/* Top right area */}
+          <div className="absolute -top-20 -right-20 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"
+               style={{background: 'linear-gradient(120deg, rgba(254, 245, 113, 0.5) 0%, rgba(143, 255, 206, 0.5) 51.33%, rgba(153, 247, 255, 0.5) 87.79%)'}}></div>
+          
+          {/* Center left */}
+          <div className="absolute top-1/2 -left-20 -translate-y-1/2 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-1000"
+               style={{background: 'linear-gradient(96deg, rgba(174, 255, 168, 0.5) 0%, rgba(143, 255, 206, 0.5) 50%, rgba(153, 247, 255, 0.5) 100%)'}}></div>
+          
+          {/* Center right */}
+          <div className="absolute top-1/2 -right-20 -translate-y-1/2 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-3000"
+               style={{background: 'linear-gradient(140deg, rgba(143, 255, 206, 0.5) 28.41%, rgba(153, 247, 255, 0.5) 69.04%)'}}></div>
+          
+          {/* Bottom left */}
+          <div className="absolute -bottom-20 -left-20 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"
+               style={{background: 'linear-gradient(96deg, rgba(143, 255, 206, 0.5) 28.41%, rgba(153, 247, 255, 0.5) 69.04%)'}}></div>
+          
+          {/* Bottom right */}
+          <div className="absolute -bottom-20 -right-20 w-[600px] h-[600px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-5000"
+               style={{background: 'linear-gradient(180deg, rgba(174, 255, 168, 0.5) 0%, rgba(143, 255, 206, 0.5) 50%, rgba(153, 247, 255, 0.5) 100%)'}}></div>
+          
+          {/* Center top */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[550px] h-[550px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-6000"
+               style={{background: 'linear-gradient(220deg, rgba(254, 245, 113, 0.45) 0%, rgba(143, 255, 206, 0.45) 51.33%, rgba(153, 247, 255, 0.45) 87.79%)'}}></div>
+          
+          {/* Center bottom */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[550px] h-[550px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-7000"
+               style={{background: 'linear-gradient(60deg, rgba(143, 255, 206, 0.45) 28.41%, rgba(153, 247, 255, 0.45) 69.04%)'}}></div>
+          
+          {/* Center orb for blending */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-500"
+               style={{background: 'linear-gradient(96deg, rgba(174, 255, 168, 0.4) 0%, rgba(143, 255, 206, 0.4) 50%, rgba(153, 247, 255, 0.4) 100%)'}}></div>
+        </div>
 
-      {/* Main Content */}
-      <main className="max-w-full mx-auto px-2 mt-12 sm:px-4 lg:px-6 py-4 sm:py-8">
-        {!currentVideo ? (
-          // Search Interface
-          <div className="max-w-6xl mx-auto space-y-1">
-
-            {/* YouTube Search */}
-            <YouTubeSearch onPick={handlePickVideo} />
-
-            {/* Graphical Stats Section */}
-            <GraphicalStats 
-              watchHistory={watchHistory}
-              currentVideoProgress={currentVideoProgress}
-              video={currentVideo}
-              className="max-w-6xl mx-auto"
-            />
-
-            {/* Scrollable Video History */}
-            <ScrollableVideoHistory
-              watchHistory={watchHistory}
-              onLoadFromHistory={handleLoadFromHistory}
-              onClearHistory={handleClearHistory}
-              calculateProgress={calculateProgress}
-              className="max-w-6xl mx-auto"
-            />
+        <div className="relative z-10 w-full px-4 mt-6">
+          <div className="w-full max-w-7xl mx-auto">
+            <YouTubeSearch onPick={handlePickVideo} onAddToWishlist={handleAddToWishlist} />
           </div>
-        ) : (
-          // Video Player Interface with Resizable Panels
-          <ResizablePanelLayout
-            leftPanel={
-              <VideoPlayerPanel
-                video={currentVideo}
-                onClose={() => setCurrentVideo(null)}
-                onTimeUpdate={handleTimeUpdate}
-                onVideoEnd={handleVideoEnd}
-                watchHistory={watchHistory}
-                className="h-full"
-              />
+        </div>
+
+        <style>{`
+          @keyframes blob {
+            0%, 100% {
+              transform: translate(0, 0) scale(1);
             }
-            rightPanel={
-              <EditorPanel title="Code Editor" className="h-full">
-                <FileProvider>
-                  <EditorSettingsProvider>
-                    <div className="flex h-full">
-                      <div className="w-64 border-r bg-gray-900 border-gray-800 h-full">
-                        <FileTree />
-                      </div>
-                      <div className="flex-1 flex flex-col h-full">
-                        <FileTabs />
-                        <div className="flex-1 min-h-0">
-                          <MonacoEditor />
-                        </div>
-                      </div>
-                    </div>
-                  </EditorSettingsProvider>
-                </FileProvider>
-              </EditorPanel>
+            25% {
+              transform: translate(20px, -50px) scale(1.1);
             }
-            leftWidth={leftWidth}
-            isResizing={isResizing}
-            containerRef={containerRef}
-            onStartResizing={startResizing}
-            onReset={resetWidth}
-            leftPanelStyle={getLeftPanelStyle()}
-            rightPanelStyle={getRightPanelStyle()}
-            className="h-[calc(100vh-200px)]"
-          />
-        )}
-      </main>
-    </div>
+            50% {
+              transform: translate(-20px, 20px) scale(0.9);
+            }
+            75% {
+              transform: translate(50px, 50px) scale(1.05);
+            }
+          }
+          
+          .animate-blob {
+            animation: blob 15s infinite;
+          }
+          
+          .animation-delay-500 {
+            animation-delay: 0.5s;
+          }
+          
+          .animation-delay-1000 {
+            animation-delay: 1s;
+          }
+          
+          .animation-delay-2000 {
+            animation-delay: 2s;
+          }
+          
+          .animation-delay-3000 {
+            animation-delay: 3s;
+          }
+          
+          .animation-delay-4000 {
+            animation-delay: 4s;
+          }
+          
+          .animation-delay-5000 {
+            animation-delay: 5s;
+          }
+          
+          .animation-delay-6000 {
+            animation-delay: 6s;
+          }
+          
+          .animation-delay-7000 {
+            animation-delay: 7s;
+          }
+        `}</style>
+      </PageLayout>
+    );
+  }
+
+  // Split view when a video is open
+  return (
+    <PageLayout
+      onLogout={handleLogout}
+      headerRight={
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => navigate('/dashboard/progress')}
+            className="inline-flex items-center px-3 py-1.5 text-xs sm:text-sm font-medium text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg transition-all duration-200"
+            title="Learning Performance"
+          >
+            Performance
+          </button>
+          <button
+            onClick={() => navigate('/dashboard/wishlist')}
+            className="inline-flex items-center px-3 py-1.5 text-xs sm:text-sm font-medium text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg transition-all duration-200"
+            title="Wishlist & History"
+          >
+            Wishlist
+          </button>
+        </div>
+      }
+      leftPanel={
+        <VideoPlayerPanel
+          video={currentVideo}
+          onClose={() => setCurrentVideo(null)}
+          onTimeUpdate={handleTimeUpdate}
+          onVideoEnd={handleVideoEnd}
+          watchHistory={watchHistory}
+          className="h-full"
+        />
+      }
+      rightPanel={
+        <EditorPanel title="Code Editor" className="h-full">
+          <FileProvider>
+            <EditorSettingsProvider>
+              <div className="flex h-full">
+                <div className="w-64 border-r bg-gray-900 border-gray-800 h-full">
+                  <FileTree />
+                </div>
+                <div className="flex-1 flex flex-col h-full">
+                  <FileTabs />
+                  <div className="flex-1 min-h-0">
+                    <MonacoEditor />
+                  </div>
+                </div>
+              </div>
+            </EditorSettingsProvider>
+          </FileProvider>
+        </EditorPanel>
+      }
+      containerRef={containerRef}
+      isResizing={isResizing}
+      onStartResizing={startResizing}
+      onReset={resetWidth}
+      leftPanelStyle={getLeftPanelStyle()}
+      rightPanelStyle={getRightPanelStyle()}
+    />
   );
 }

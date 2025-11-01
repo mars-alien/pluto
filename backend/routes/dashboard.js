@@ -20,6 +20,7 @@ router.delete('/history', dashboardController.clearWatchHistory);
 // Bookmark routes
 router.get('/bookmarks', dashboardController.getBookmarkedVideos);
 router.post('/bookmarks/toggle', dashboardController.toggleBookmark);
+router.post('/bookmarks/check', dashboardController.checkBookmarkStatus);
 
 // Notes and rating routes
 router.post('/notes', dashboardController.addNotes);
