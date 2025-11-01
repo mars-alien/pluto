@@ -5,8 +5,29 @@ import { AUTH_CONFIG } from "../config/auth";
 
 export default function OAuthButtons({ action = "register" }) {
   // Pass action parameter to distinguish login vs register
-  const goGoogle = () => (window.location.href = `${AUTH_CONFIG.googleAuthUrl}?action=${action}`);
-  const goGitHub = () => (window.location.href = `${AUTH_CONFIG.githubAuthUrl}?action=${action}`);
+  const goGoogle = () => {
+    try {
+      const url = `${AUTH_CONFIG.googleAuthUrl}?action=${action}`;
+      console.log('🔗 Redirecting to Google OAuth:', url);
+      console.log('🔍 AUTH_CONFIG:', AUTH_CONFIG);
+      window.location.href = url;
+    } catch (error) {
+      console.error('❌ Error in Google OAuth redirect:', error);
+      alert('Error redirecting to Google OAuth. Check console for details.');
+    }
+  };
+  
+  const goGitHub = () => {
+    try {
+      const url = `${AUTH_CONFIG.githubAuthUrl}?action=${action}`;
+      console.log('🔗 Redirecting to GitHub OAuth:', url);
+      console.log('🔍 AUTH_CONFIG:', AUTH_CONFIG);
+      window.location.href = url;
+    } catch (error) {
+      console.error('❌ Error in GitHub OAuth redirect:', error);
+      alert('Error redirecting to GitHub OAuth. Check console for details.');
+    }
+  };
 
   // Dynamic text based on action
   const getButtonText = (provider) => {
