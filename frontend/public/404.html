@@ -5,8 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pluto - Redirecting...</title>
     <script>
-        // Redirect all 404s to index.html for client-side routing
-        window.location.replace('/');
+        // Handle OAuth callback or redirect to home for client-side routing
+        const currentPath = window.location.pathname;
+        const searchParams = window.location.search;
+        
+        if (currentPath.includes('/oauth/callback') || currentPath.includes('/auth/callback')) {
+            // Preserve OAuth callback with parameters for HashRouter
+            window.location.replace('/#/oauth/callback' + searchParams);
+        } else {
+            // For other 404s, redirect to home with hash routing
+            window.location.replace('/#/');
+        }
     </script>
 </head>
 <body>
