@@ -5,17 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pluto - Redirecting...</title>
     <script>
-        // Handle OAuth callback or redirect to home for client-side routing
+        // Redirect to index.html with the same path for client-side routing
         const currentPath = window.location.pathname;
         const searchParams = window.location.search;
         
-        if (currentPath.includes('/oauth/callback') || currentPath.includes('/auth/callback')) {
-            // Preserve OAuth callback with parameters for HashRouter
-            window.location.replace('/#/oauth/callback' + searchParams);
-        } else {
-            // For other 404s, redirect to home with hash routing
-            window.location.replace('/#/');
-        }
+        // Store the path in sessionStorage so React Router can handle it
+        sessionStorage.setItem('redirectPath', currentPath + searchParams);
+        
+        // Redirect to index.html
+        window.location.replace('/index.html');
     </script>
 </head>
 <body>
