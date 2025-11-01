@@ -19,15 +19,6 @@ function PrivateRoute({ children }) {
 }
 
 export default function AppRoutes() {
-  // Handle redirect from 404.html
-  React.useEffect(() => {
-    const redirectPath = sessionStorage.getItem('redirectPath');
-    if (redirectPath) {
-      sessionStorage.removeItem('redirectPath');
-      window.history.replaceState(null, '', redirectPath);
-    }
-  }, []);
-
   return (
     <Router>
       <Routes>
