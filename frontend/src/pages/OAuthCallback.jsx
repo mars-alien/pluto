@@ -10,17 +10,15 @@ export default function OAuthCallback() {
   const [tokenProcessed, setTokenProcessed] = useState(false);
 
   useEffect(() => {
-    // Parse hash fragment (e.g., #/oauth/callback?token=abc)
-    const hash = location.hash.substring(1); // Remove #
-    const params = new URLSearchParams(hash.split('?')[1] || '');
-    
+    // Extract token directly from URL hash
+    const hash = window.location.hash.substring(1);
+    const token = new URLSearchParams(hash.split('?')[1] || '').get('token');
+    const error = new URLSearchParams(hash.split('?')[1] || '').get('error');
+
     console.log('🔄 OAuth Callback - Processing...');
     console.log('📍 Current URL:', window.location.href);
-    console.log('🔍 URL Params:', Object.fromEntries(params.entries()));
-    
-    const token = params.get('token');
-    const error = params.get('error');
-    
+    console.log('🔍 Token found:', !!token);
+
     if (error) {
       console.error('❌ OAuth Error:', error);
       setStatus(`Authentication failed: ${error}`);
@@ -31,11 +29,14 @@ export default function OAuthCallback() {
     if (token && !tokenProcessed) {
       console.log('✅ Token received, logging in...');
       setStatus('Authentication successful! Loading user data...');
+      
+      // Save token to localStorage and context
+      localStorage.setItem('token', token);
       setToken(token);
       setTokenProcessed(true);
       
       // Clear token from URL for security
-      window.history.replaceState({}, document.title, window.location.pathname);
+      window.history.replaceState({}, document.title, '/');
     } else if (!token) {
       console.warn('⚠️ No token found in callback');
       setStatus('No authentication token found. Redirecting...');
@@ -48,7 +49,10 @@ export default function OAuthCallback() {
     if (tokenProcessed && !loading && user) {
       console.log('✅ User authenticated, redirecting to dashboard...');
       setStatus('Welcome! Redirecting to dashboard...');
-      setTimeout(() => navigate('/dashboard'), 500);
+      // Use window.location.href for reliable redirect
+      setTimeout(() => {
+        window.location.href = '/#/dashboard';
+      }, 500);
     } else if (tokenProcessed && !loading && !user) {
       console.error('❌ Failed to authenticate user');
       setStatus('Authentication failed. Redirecting...');
