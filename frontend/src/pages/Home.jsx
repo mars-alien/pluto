@@ -6,6 +6,15 @@ import Logo from "../../asset/Logo.png";
 
 
 export default function Home() {
+  // Check if we have a token in URL (OAuth redirect issue)
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    if (token) {
+      console.log('⚠️ Token found in home page URL - redirecting to OAuth callback');
+      window.location.href = `/oauth/callback?token=${token}`;
+    }
+  }, []);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
