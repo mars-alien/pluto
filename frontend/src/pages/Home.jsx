@@ -20,7 +20,16 @@ export default function Home() {
     const token = searchParams.get('token');
     const oauthError = searchParams.get('error');
 
+    console.log('🔍 Home page URL check:', {
+      oauth,
+      hasToken: !!token,
+      oauthError,
+      fullURL: window.location.href
+    });
+
     if (oauth === 'callback') {
+      console.log('🔄 OAuth callback detected on home page');
+      
       if (oauthError) {
         console.error('❌ OAuth Error:', oauthError);
         setError('Authentication failed. Please try again.');
@@ -30,7 +39,7 @@ export default function Home() {
       }
 
       if (token) {
-        console.log('✅ OAuth token received, processing...');
+        console.log('✅ OAuth token received, processing...', token.substring(0, 20) + '...');
         setLoading(true);
         
         // Save token to localStorage and context
@@ -39,12 +48,20 @@ export default function Home() {
         
         // Clean URL immediately
         window.history.replaceState({}, document.title, '/');
+      } else {
+        console.warn('⚠️ OAuth callback without token');
       }
     }
   }, [searchParams, setToken]);
 
   // Redirect to dashboard when user is authenticated
   useEffect(() => {
+    console.log('🔍 Auth state check:', {
+      hasUser: !!user,
+      authLoading,
+      userEmail: user?.email
+    });
+    
     if (user && !authLoading) {
       console.log('✅ User authenticated, redirecting to dashboard...');
       navigate('/dashboard');

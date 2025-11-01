@@ -57,7 +57,10 @@ export function AuthProvider({ children }) {
     setUser(res.data.user);
   };
 
-  const setToken = (t) => setTokenState(t);
+  const setToken = (t) => {
+    console.log('🔧 Setting token in AuthContext:', t ? t.substring(0, 20) + '...' : 'null');
+    setTokenState(t);
+  };
 
   const logout = () => {
     setTokenState(null);
