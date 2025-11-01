@@ -77,6 +77,7 @@ exports.verifyCode = async (req, res) => {
   }
 };
 
+
 exports.register = async (req, res) => {
   try {
     const { name, email, password, code } = req.body;

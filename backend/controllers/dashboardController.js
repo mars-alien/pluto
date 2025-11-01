@@ -86,128 +86,10 @@ exports.updateWatchProgress = async (req, res) => {
 };
 
 
-exports.toggleBookmark = async (req, res) => {
-  try {
-    const userId = req.userId;
-    const { videoId, bookmarked } = req.body;
-
-    if (!videoId || typeof bookmarked !== 'boolean') {
-      return res.status(400).json({ message: "Video ID and bookmark status are required" });
-    }
-
-    const result = await DashboardService.toggleBookmark(userId, videoId, bookmarked);
-    
-    res.json({
-      success: true,
-      data: result
-    });
-  } catch (error) {
-    console.error('Toggle bookmark error:', error);
-    res.status(500).json({ 
-      success: false,
-      message: error.message || "Failed to update bookmark"
-    });
-  }
-};
-
-exports.addNotes = async (req, res) => {
-  try {
-    const userId = req.userId;
-    const { videoId, notes } = req.body;
-
-    if (!videoId) {
-      return res.status(400).json({ message: "Video ID is required" });
-    }
-
-    const result = await DashboardService.addNotes(userId, videoId, notes || "");
-    
-    res.json({
-      success: true,
-      data: result
-    });
-  } catch (error) {
-    console.error('Add notes error:', error);
-    res.status(500).json({ 
-      success: false,
-      message: error.message || "Failed to update notes"
-    });
-  }
-};
-
-
-exports.rateVideo = async (req, res) => {
-  try {
-    const userId = req.userId;
-    const { videoId, rating } = req.body;
-
-    if (!videoId || !rating) {
-      return res.status(400).json({ message: "Video ID and rating are required" });
-    }
-
-    const result = await DashboardService.rateVideo(userId, videoId, rating);
-    
-    res.json({
-      success: true,
-      data: result
-    });
-  } catch (error) {
-    console.error('Rate video error:', error);
-    res.status(500).json({ 
-      success: false,
-      message: error.message || "Failed to update rating"
-    });
-  }
-};
-
-
-exports.getBookmarkedVideos = async (req, res) => {
-  try {
-    const userId = req.userId;
-    const { limit = 10, page = 1 } = req.query;
-
-    const bookmarkedVideos = await DashboardService.getBookmarkedVideos(
-      userId, 
-      parseInt(limit), 
-      parseInt(page)
-    );
-    
-    res.json({
-      success: true,
-      data: bookmarkedVideos
-    });
-  } catch (error) {
-    console.error('Get bookmarked videos error:', error);
-    res.status(500).json({ 
-      success: false,
-      message: error.message || "Failed to get bookmarked videos"
-    });
-  }
-};
-
-exports.checkBookmarkStatus = async (req, res) => {
-  try {
-    const userId = req.userId;
-    const { videoIds } = req.body;
-
-    if (!videoIds || !Array.isArray(videoIds)) {
-      return res.status(400).json({ message: "Video IDs array is required" });
-    }
-
-    const bookmarkStatus = await DashboardService.checkBookmarkStatus(userId, videoIds);
-    
-    res.json({
-      success: true,
-      data: bookmarkStatus
-    });
-  } catch (error) {
-    console.error('Check bookmark status error:', error);
-    res.status(500).json({ 
-      success: false,
-      message: error.message || "Failed to check bookmark status"
-    });
-  }
-};
-
+// Removed unused controller methods:
+// - toggleBookmark, addNotes, rateVideo (bookmark and rating features not implemented)
+// - getBookmarkedVideos, checkBookmarkStatus (bookmark features not implemented) 
+// - getDashboardStats (statistics not used by frontend)
 
 exports.clearWatchHistory = async (req, res) => {
   try {
@@ -229,35 +111,12 @@ exports.clearWatchHistory = async (req, res) => {
 };
 
 
-exports.getDashboardStats = async (req, res) => {
-  try {
-    const userId = req.userId;
-
-    const stats = await DashboardService.getDashboardStats(userId);
-    
-    res.json({
-      success: true,
-      data: stats
-    });
-  } catch (error) {
-    console.error('Get dashboard stats error:', error);
-    res.status(500).json({ 
-      success: false,
-      message: error.message || "Failed to get dashboard statistics"
-    });
-  }
-};
-
-
-/**
- * YouTube Search proxy (YouTube Data API v3)
- */
 exports.searchYouTube = async (req, res) => {
   try {
     const {
       q,
       pageToken = '',
-      maxResults = 24,
+      maxResults = 12,
       order = 'relevance',
       safeSearch = 'strict',
       regionCode = '',

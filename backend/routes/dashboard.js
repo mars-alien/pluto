@@ -17,16 +17,10 @@ router.get('/history', dashboardController.getWatchHistory);
 router.post('/history/progress', dashboardController.updateWatchProgress);
 router.delete('/history', dashboardController.clearWatchHistory);
 
-// Bookmark routes
-router.get('/bookmarks', dashboardController.getBookmarkedVideos);
-router.post('/bookmarks/toggle', dashboardController.toggleBookmark);
-router.post('/bookmarks/check', dashboardController.checkBookmarkStatus);
-
-// Notes and rating routes
-router.post('/notes', dashboardController.addNotes);
-router.post('/rating', dashboardController.rateVideo);
-
-// Dashboard statistics
-router.get('/stats', dashboardController.getDashboardStats);
+// Removed unused routes:
+// - Bookmark routes (getBookmarkedVideos, toggleBookmark, checkBookmarkStatus)
+// - Notes and rating routes (addNotes, rateVideo) 
+// - Dashboard statistics (getDashboardStats)
+// These features are not implemented in the frontend
 
 module.exports = router;
