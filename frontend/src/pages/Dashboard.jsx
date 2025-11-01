@@ -9,14 +9,8 @@ import PageLayout from "../components/PageLayout";
 import YouTubeSearch from "../components/dashboard/YouTubeSearch";
 import VideoPlayerPanel from "../components/dashboard/VideoPlayerPanel";
 
-import { FileProvider } from "../context/FileContext";
-import { EditorSettingsProvider } from "../context/EditorSettingsContext";
-
-import EditorPanel from "../components/dashboard/EditorPanel";
-import FileTabs from "../components/editor/fileTabs";
-import FileTree from "../components/editor/fileTree";
-
-import MonacoEditor from "../components/editor/MonacoEditor";
+// Removed redundant editor imports - use dedicated Editor page instead
+import './Dashboard.css';
 
 
 export default function Dashboard() {
@@ -254,58 +248,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <style>{`
-          @keyframes blob {
-            0%, 100% {
-              transform: translate(0, 0) scale(1);
-            }
-            25% {
-              transform: translate(20px, -50px) scale(1.1);
-            }
-            50% {
-              transform: translate(-20px, 20px) scale(0.9);
-            }
-            75% {
-              transform: translate(50px, 50px) scale(1.05);
-            }
-          }
-          
-          .animate-blob {
-            animation: blob 15s infinite;
-          }
-          
-          .animation-delay-500 {
-            animation-delay: 0.5s;
-          }
-          
-          .animation-delay-1000 {
-            animation-delay: 1s;
-          }
-          
-          .animation-delay-2000 {
-            animation-delay: 2s;
-          }
-          
-          .animation-delay-3000 {
-            animation-delay: 3s;
-          }
-          
-          .animation-delay-4000 {
-            animation-delay: 4s;
-          }
-          
-          .animation-delay-5000 {
-            animation-delay: 5s;
-          }
-          
-          .animation-delay-6000 {
-            animation-delay: 6s;
-          }
-          
-          .animation-delay-7000 {
-            animation-delay: 7s;
-          }
-        `}</style>
       </PageLayout>
     );
   }
@@ -343,23 +285,28 @@ export default function Dashboard() {
         />
       }
       rightPanel={
-        <EditorPanel title="Code Editor" className="h-full">
-          <FileProvider>
-            <EditorSettingsProvider>
-              <div className="flex h-full">
-                <div className="w-64 border-r bg-gray-900 border-gray-800 h-full">
-                  <FileTree />
-                </div>
-                <div className="flex-1 flex flex-col h-full">
-                  <FileTabs />
-                  <div className="flex-1 min-h-0">
-                    <MonacoEditor />
-                  </div>
-                </div>
-              </div>
-            </EditorSettingsProvider>
-          </FileProvider>
-        </EditorPanel>
+        <div className="h-full bg-gray-50 flex items-center justify-center p-8">
+          <div className="text-center">
+            <div className="mb-6">
+              <svg className="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">Ready to Code?</h3>
+            <p className="text-gray-500 mb-6">Select a video and start coding in the dedicated editor</p>
+            {currentVideo && (
+              <button
+                onClick={() => navigate('/dashboard/editor', { state: { video: currentVideo } })}
+                className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                Open in Editor
+              </button>
+            )}
+          </div>
+        </div>
       }
       containerRef={containerRef}
       isResizing={isResizing}

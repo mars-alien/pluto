@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './Header';
+import Navbar from './Navbar';
 import ResizableDivider from './dashboard/ResizableDivider';
 
 export default function PageLayout({ 
@@ -33,16 +33,20 @@ export default function PageLayout({
         </div>
       )}
 
-      <Header showBackButton={showBackButton} backTo={backTo} onLogout={onLogout} onLogoClick={onLogoClick} right={headerRight} />
+      <Navbar showBackButton={showBackButton} backTo={backTo} onLogout={onLogout} onLogoClick={onLogoClick} right={headerRight} />
 
-      <main className="relative z-10 min-h-screen pt-20 px-4 py-8">
+      <main 
+        className="relative z-10 min-h-screen py-4 sm:py-6 lg:py-8" 
+        style={hasResizablePanels ? { padding: '100px 0 8px 0' } : { paddingTop: '100px' }}
+      >
         {hasResizablePanels ? (
           <div
             ref={containerRef}
-            className="flex h-[calc(100vh-8rem)] min-h-[600px]"
+            className="flex lg:flex-row h-[calc(100vh-6rem)] sm:h-[calc(100vh-8rem)] min-h-[400px] sm:min-h-[600px] w-full"
             style={{ userSelect: isResizing ? 'none' : 'auto' }}
           >
-            <div className="flex-shrink-0 overflow-hidden" style={leftPanelStyle}>
+            {/* Mobile: Show only video player (full screen), Desktop: Side by side */}
+            <div className="flex-shrink-0 overflow-hidden h-full w-full lg:w-auto" style={leftPanelStyle}>
               {leftPanel}
             </div>
             <ResizableDivider
@@ -51,13 +55,14 @@ export default function PageLayout({
               showTooltip={true}
               thickness="medium"
               onDoubleClick={onReset}
+              className="hidden lg:block"
             />
-            <div className="flex-shrink-0 overflow-hidden" style={rightPanelStyle}>
+            <div className="hidden lg:block overflow-hidden h-full" style={rightPanelStyle}>
               {rightPanel}
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center px-2 sm:px-4">
             {children}
           </div>
         )}

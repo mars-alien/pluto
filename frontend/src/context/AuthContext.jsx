@@ -30,14 +30,11 @@ export function AuthProvider({ children }) {
   const fetchOAuthUser = async () => {
     try { 
       setLoading(true);
-      console.log('🔄 Fetching user data...');
       const res = await api.get('/auth/me');
-      console.log('✅ User data received:', res.data.user);
       setUser(res.data.user);
     } catch (err) {
-      console.error('❌ Failed to fetch user:', err.response?.data || err.message);
+      console.error('Failed to fetch user:', err.response?.data || err.message);
       setUser(null);
-      // Clear invalid token
       localStorage.removeItem('token');
       setTokenState(null);
     } finally {
@@ -57,10 +54,7 @@ export function AuthProvider({ children }) {
     setUser(res.data.user);
   };
 
-  const setToken = (t) => {
-    console.log('🔧 Setting token in AuthContext:', t ? t.substring(0, 20) + '...' : 'null');
-    setTokenState(t);
-  };
+  const setToken = (t) => setTokenState(t);
 
   const logout = () => {
     setTokenState(null);

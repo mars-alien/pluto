@@ -4,6 +4,7 @@ import PageLayout from "../components/PageLayout";
 import OAuthButtons from "../components/OAuthButtons";
 import api from "../api/api";
 import { useAuth } from "../hooks/useAuth";
+import "./Register.css";
 
 export default function Register() {
   const location = useLocation();
@@ -101,6 +102,7 @@ export default function Register() {
     setMessage("");
   };
 
+
   return (
     <PageLayout 
       showBackButton={true}
@@ -128,63 +130,10 @@ export default function Register() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-green-100 via-cyan-100 to-blue-100 mix-blend-multiply blur-3xl"></div>
       </div>
 
-      {/* Animation CSS */}
-      <style>{`
-        @keyframes blob {
-          0%, 100% {
-            transform: translate(0, 0) scale(1);
-          }
-          25% {
-            transform: translate(20px, -50px) scale(1.05);
-          }
-          50% {
-            transform: translate(-20px, 20px) scale(0.95);
-          }
-          75% {
-            transform: translate(50px, 50px) scale(1.02);
-          }
-        }
-        
-        .animate-blob {
-          animation: blob 20s infinite ease-in-out;
-        }
-        
-        .animation-delay-500 {
-          animation-delay: 0.5s;
-        }
-        
-        .animation-delay-1000 {
-          animation-delay: 1s;
-        }
-        
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        
-        .animation-delay-3000 {
-          animation-delay: 3s;
-        }
-        
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        
-        .animation-delay-5000 {
-          animation-delay: 5s;
-        }
-        
-        .animation-delay-6000 {
-          animation-delay: 6s;
-        }
-        
-        .animation-delay-7000 {
-          animation-delay: 7s;
-        }
-      `}</style>
 
-      <div className="w-full max-w-xl mt-4 relative z-10 flex justify-center">
-        <div className="register-card-wrapper  w-full flex justify-center">
-          <div className="register-card">
+      <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl mt-2 sm:mt-4 relative z-10 flex justify-center px-4 sm:px-6 lg:px-8">
+        <div className="register-card-wrapper w-full flex justify-center">
+          <div className="register-card w-full">
           {step === "form" ? (
             <>
               {/* Registration Form */}
@@ -195,17 +144,17 @@ export default function Register() {
 
               {/* Error Message */}
               {message && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl">
                   <div className="flex items-center space-x-2">
-                    <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 bg-red-500 rounded-full flex items-center justify-center">
                       <span className="text-white text-xs font-bold">!</span>
                     </div>
-                    <p className="text-red-700 font-medium">{message}</p>
+                    <p className="text-red-700 font-medium text-sm sm:text-base">{message}</p>
                   </div>
                 </div>
               )}
 
-              <form onSubmit={handleRegister} className="space-y-2">
+              <form onSubmit={handleRegister} className="space-y-3 sm:space-y-4">
                 {/* Name Input */}
                 <div className="relative">
                   <input
@@ -216,8 +165,8 @@ export default function Register() {
                     className="register-input"
                     disabled={loading}
                   />
-                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-                    <div className="w-5 h-5 text-gray-400">
+                  <div className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2">
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400">
                       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
@@ -235,8 +184,8 @@ export default function Register() {
                     className="register-input"
                     disabled={loading}
                   />
-                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-                    <div className="w-5 h-5 text-gray-400">
+                  <div className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2">
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400">
                       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                       </svg>
@@ -391,112 +340,6 @@ export default function Register() {
           </div>
         </div>
       </div>
-    
-    <style>{`
-    
-  /* Removed all custom styles. Only Tailwind utility classes are used for background and effects. */
-
-     
-      .register-card-wrapper { width: 100%; display: flex; justify-content: center; }
-      .register-card {
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-radius: 16px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-        padding: 25px;
-        max-width: 440px;
-        width: 100%;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-      }
-
-      /* Typography */
-      .register-heading {
-        font-family: 'Inter', sans-serif;
-        font-size: 30px;
-        font-weight: 700;
-        color: #1A1D29;
-        margin-bottom: 2px;
-      }
-      .register-subtext {
-        font-size: 16px;
-        font-weight: 400;
-        color: #718096;
-        margin-bottom: 32px;
-      }
-
-      /* INPUTS */
-      .register-input {
-        width: 100%;
-        background: #FFFFFF;
-        border: 1.5px solid #E2E8F0;
-        border-radius: 8px;
-        /* leave room on the left for the inline icon */
-        padding: 12px 16px 12px 48px;
-        box-sizing: border-box;
-        font-size: 16px;
-        color: #1A1D29;
-        transition: all 0.2s ease;
-      }
-      .register-input::placeholder { color: #A0AEC0; }
-      .register-input:focus {
-        border-color: #4A9EE0;
-        box-shadow: 0 0 0 3px rgba(74, 158, 224, 0.1);
-        outline: none;
-      }
-  .register-code-input { text-align: center; font-size: 28px; letter-spacing: 8px; padding: 16px; }
-
-      /* PRIMARY BUTTON */
-      .register-primary-btn {
-        width: 100%;
-        background: #4A9EE0;
-        color: #FFFFFF;
-        padding: 14px 24px;
-        border-radius: 8px;
-        font-weight: 500;
-        font-size: 16px;
-        border: none;
-        transition: all 0.2s ease;
-      }
-      .register-primary-btn:hover:not(:disabled) {
-        background: #3A8ED0;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(74, 158, 224, 0.3);
-      }
-      .register-primary-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-      /* OAUTH BUTTONS */
-      .register-oauth > div > button:first-child {
-        background: #FFFFFF !important;
-        border: 1.5px solid #E2E8F0 !important;
-        color: #1A1D29 !important;
-        padding: 12px 24px !important;
-        border-radius: 8px !important;
-        font-weight: 500 !important;
-      }
-      .register-oauth > div > button:first-child:hover { background: #F7FAFC !important; border-color: #CBD5E0 !important; }
-
-      .register-oauth > div > button:last-child {
-        background: #24292E !important;
-        color: #FFFFFF !important;
-        border: none !important;
-        padding: 12px 24px !important;
-        border-radius: 8px !important;
-        font-weight: 500 !important;
-      }
-      .register-oauth > div > button:last-child:hover { background: #1A1F2E !important; }
-
-      /* Sign-in link */
-      .register-signin-link {
-        color: #4A9EE0;
-        font-weight: 500;
-        text-decoration: none;
-        background: transparent;
-        border: none;
-        padding: 0;
-      }
-      .register-signin-link:hover { color: #3A8ED0; text-decoration: underline; }
-    `}</style>
     </PageLayout>
   );
 }

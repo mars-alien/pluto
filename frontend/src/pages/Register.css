@@ -1,0 +1,213 @@
+/* Register Component Styles - Extends Auth styles */
+@import './Login.css';
+
+/* Register Card Wrapper */
+.register-card-wrapper { 
+  width: 100%; 
+  display: flex; 
+  justify-content: center; 
+  padding: 16px 8px;
+}
+
+@media (min-width: 640px) {
+  .register-card-wrapper {
+    padding: 24px 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .register-card-wrapper {
+    padding: 32px 16px;
+  }
+}
+
+/* Register Card */
+.register-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+@media (min-width: 640px) {
+  .register-card {
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .register-card {
+    padding: 30px;
+  }
+}
+
+/* Register Typography */
+.register-heading {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1A1D29;
+  margin-bottom: 2px;
+}
+
+@media (min-width: 640px) {
+  .register-heading {
+    font-size: 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .register-heading {
+    font-size: 30px;
+  }
+}
+
+.register-subtext {
+  font-size: 14px;
+  font-weight: 400;
+  color: #718096;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 640px) {
+  .register-subtext {
+    font-size: 16px;
+    margin-bottom: 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .register-subtext {
+    margin-bottom: 32px;
+  }
+}
+
+/* Register Input */
+.register-input {
+  width: 100%;
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 6px;
+  padding: 10px 14px 10px 40px;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #1A1D29;
+  transition: all 0.2s ease;
+}
+
+@media (min-width: 640px) {
+  .register-input {
+    border-radius: 8px;
+    padding: 12px 16px 12px 48px;
+    font-size: 16px;
+  }
+}
+
+.register-input::placeholder { 
+  color: #A0AEC0; 
+}
+
+.register-input:focus {
+  border-color: #4A9EE0;
+  box-shadow: 0 0 0 3px rgba(74,158,224,0.1);
+  outline: none;
+}
+
+/* Register Code Input */
+.register-code-input { 
+  text-align: center; 
+  font-size: 24px; 
+  letter-spacing: 6px; 
+  padding: 14px; 
+}
+
+@media (min-width: 640px) {
+  .register-code-input {
+    font-size: 28px;
+    letter-spacing: 8px;
+    padding: 16px;
+  }
+}
+
+/* Register Primary Button */
+.register-primary-btn {
+  width: 100%;
+  background: #4A9EE0;
+  color: #FFFFFF;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  border: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+@media (min-width: 640px) {
+  .register-primary-btn {
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+}
+
+.register-primary-btn:hover:not(:disabled) {
+  background: #3A8ED0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74,158,224,0.3);
+}
+
+.register-primary-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Register OAuth */
+.register-oauth > div > button:first-child {
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  color: #1A1D29 !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+}
+
+.register-oauth > div > button:first-child:hover {
+  background: #F7FAFC !important;
+  border-color: #CBD5E0 !important;
+}
+
+.register-oauth > div > button:last-child {
+  background: #24292E !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+}
+
+.register-oauth > div > button:last-child:hover {
+  background: #1A1F2E !important;
+}
+
+/* Register Link */
+.register-link {
+  color: #4A9EE0;
+  font-weight: 500;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.register-link:hover {
+  color: #3A8ED0;
+  text-decoration: underline;
+}

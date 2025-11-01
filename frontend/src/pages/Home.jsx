@@ -3,8 +3,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import OAuthButtons from "../components/OAuthButtons";
 import PageLayout from "../components/PageLayout";
 import Logo from "../../asset/Logo.png";
-import { API_BASE_URL } from "../config/api"; // Import centralized API config
+import { API_BASE_URL } from "../config/api";
 import { useAuth } from "../hooks/useAuth";
+import "./Home.css";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -14,56 +15,31 @@ export default function Home() {
   const { setToken, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
-  // Handle OAuth callback on home page
+  // Handle OAuth callback on home page (temporary workaround for static hosting)
   useEffect(() => {
     const oauth = searchParams.get('oauth');
     const token = searchParams.get('token');
     const oauthError = searchParams.get('error');
 
-    console.log('🔍 Home page URL check:', {
-      oauth,
-      hasToken: !!token,
-      oauthError,
-      fullURL: window.location.href
-    });
-
     if (oauth === 'callback') {
-      console.log('🔄 OAuth callback detected on home page');
-      
       if (oauthError) {
-        console.error('❌ OAuth Error:', oauthError);
         setError('Authentication failed. Please try again.');
-        // Clean URL
         window.history.replaceState({}, document.title, '/');
         return;
       }
 
       if (token) {
-        console.log('✅ OAuth token received, processing...', token.substring(0, 20) + '...');
         setLoading(true);
-        
-        // Save token to localStorage and context
         localStorage.setItem('token', token);
         setToken(token);
-        
-        // Clean URL immediately
         window.history.replaceState({}, document.title, '/');
-      } else {
-        console.warn('⚠️ OAuth callback without token');
       }
     }
   }, [searchParams, setToken]);
 
   // Redirect to dashboard when user is authenticated
   useEffect(() => {
-    console.log('🔍 Auth state check:', {
-      hasUser: !!user,
-      authLoading,
-      userEmail: user?.email
-    });
-    
     if (user && !authLoading) {
-      console.log('✅ User authenticated, redirecting to dashboard...');
       navigate('/dashboard');
     }
   }, [user, authLoading, navigate]);
@@ -100,7 +76,9 @@ export default function Home() {
   };
 
   return (
-    <PageLayout className="min-h-screen home-bg relative overflow-hidden">
+    <PageLayout 
+      className="min-h-screen home-bg relative overflow-hidden"
+    >
       {/* Mesh Gradient Background - AWS Colors Distributed Evenly */}
       <div className="absolute inset-0 overflow-hidden bg-white">
         {/* Top left area */}
@@ -140,78 +118,30 @@ export default function Home() {
              style={{background: 'linear-gradient(96deg, rgba(174, 255, 168, 0.4) 0%, rgba(143, 255, 206, 0.4) 50%, rgba(153, 247, 255, 0.4) 100%)'}}></div>
       </div>
 
-      <style>{`
-        @keyframes blob {
-          0%, 100% {
-            transform: translate(0, 0) scale(1);
-          }
-          25% {
-            transform: translate(20px, -50px) scale(1.1);
-          }
-          50% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-          75% {
-            transform: translate(50px, 50px) scale(1.05);
-          }
-        }
-        
-        .animate-blob {
-          animation: blob 15s infinite;
-        }
-        
-        .animation-delay-1000 {
-          animation-delay: 1s;
-        }
-        
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        
-        .animation-delay-3000 {
-          animation-delay: 3s;
-        }
-        
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        
-        .animation-delay-5000 {
-          animation-delay: 5s;
-        }
-        
-        .animation-delay-6000 {
-          animation-delay: 6s;
-        }
-        
-        .animation-delay-7000 {
-          animation-delay: 7s;
-        }
-      `}</style>
 
       {/* Main Section */}
-      <div className="relative z-10 flex items-center justify-center px-4 mt-2">
+      <div className="relative z-10 flex items-center justify-center px-4 sm:px-6 lg:px-8 mt-2">
         <div className="home-card-wrapper w-full flex justify-center">
-          <div className="home-card" style={{ width: '450px' }}>
+          <div className="home-card w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
             <div className="flex flex-col items-center text-center">
               <img src={Logo} alt="Pluto" className="home-logo" />
-              <h1 className="text-3xl font-bold mb-1">Welcome to Pluto</h1>
-              <p className="text-gray-600 mb-6">Learn the essence, not just the syntax.</p>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2">Welcome to Pluto</h1>
+              <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-4 sm:mb-6 px-2">Learn the essence, not just the syntax.</p>
             </div>
 
             {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+              <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl">
                 <div className="flex items-center space-x-2">
-                  <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                  <div className="w-4 h-4 sm:w-5 sm:h-5 bg-red-500 rounded-full flex items-center justify-center">
                     <span className="text-white text-xs font-bold">!</span>
                   </div>
-                  <p className="text-red-700 font-medium">{error}</p>
+                  <p className="text-red-700 font-medium text-sm sm:text-base">{error}</p>
                 </div>
               </div>
             )}
 
             {/* Email Input */}
-            <form onSubmit={handleSubmit} className="space-y-6 w-full">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 w-full">
               <div className="relative">
                 <input
                   type="email"
@@ -221,12 +151,12 @@ export default function Home() {
                   className="home-input"
                   disabled={loading}
                 />
-                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                <div className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
                   <svg
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
-                    className="w-5 h-5"
+                    className="w-4 h-4 sm:w-5 sm:h-5"
                   >
                     <path
                       strokeLinecap="round"
@@ -248,83 +178,21 @@ export default function Home() {
             </form>
 
             {/* Divider */}
-            <div className="flex items-center my-4">
+            <div className="flex items-center my-3 sm:my-4">
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-              <span className="px-2 text-gray-500 font-medium bg-white/70 rounded-full border border-white/40">
+              <span className="px-2 sm:px-3 text-xs sm:text-sm text-gray-500 font-medium bg-white/70 rounded-full border border-white/40">
                 OR
               </span>
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
             </div>
 
             {/* OAuth Buttons */}
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               <OAuthButtons />
             </div>
           </div>
         </div>
       </div>
-      
-      <style>{`
-        .home-bg {
-          background: linear-gradient(135deg, #E8F4FB 0%, #FFF0F1 40%, #E8FBF7 100%);
-          opacity: 0.8;
-        }
-
-        .home-card-wrapper { padding: 32px 16px; }
-
-        .home-card {
-         background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-radius: 16px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-        padding: 25px;
-        max-width: 440px;
-        width: 100%;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .home-logo {
-          background: #FFFFFF;
-          padding: 12px;
-          border-radius: 12px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-          margin-bottom: 24px;
-          width: 56px;
-          height: 56px;
-          object-fit: cover;
-        }
-
-        .home-input {
-          width: 100%;
-          border: 1.5px solid #E2E8F0;
-          border-radius: 8px;
-          padding: 12px 16px 12px 48px;
-          font-size: 16px;
-          box-sizing: border-box;
-        }
-        .home-input::placeholder { color: #A0AEC0; }
-        .home-input:focus {
-          border-color: #4A9EE0;
-          box-shadow: 0 0 0 3px rgba(74, 158, 224, 0.1);
-          outline: none;
-        }
-
-        .home-primary-btn {
-          background: #4A9EE0;
-          color: #FFFFFF;
-          padding: 14px 24px;
-          border-radius: 8px;
-          font-weight: 500;
-          width: 100%;
-          border: none;
-          transition: all 0.18s ease;
-        }
-        .home-primary-btn:hover:not(:disabled) {
-          background: #3A8ED0;
-          transform: translateY(-1px);
-        }
-      `}</style>
     </PageLayout>
   );
 }

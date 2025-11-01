@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import PageLayout from '../components/PageLayout';
 import WishlistService from '../services/WishlistService';
 import DashboardService from '../services/DashboardService';
+import './Wishlist.css';
 
 export default function Wishlist() {
   const { logout } = useAuth();
@@ -287,46 +288,6 @@ export default function Wishlist() {
         </div>
       </div>
 
-      <style>{`
-        @keyframes blob {
-          0%, 100% {
-            transform: translate(0, 0) scale(1);
-          }
-          25% {
-            transform: translate(20px, -50px) scale(1.1);
-          }
-          50% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-          75% {
-            transform: translate(50px, 50px) scale(1.05);
-          }
-        }
-        
-        .animate-blob {
-          animation: blob 15s infinite;
-        }
-        
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        
-        .animation-delay-6000 {
-          animation-delay: 6s;
-        }
-        
-        .animation-delay-7000 {
-          animation-delay: 7s;
-        }
-        
-        .animation-delay-500 {
-          animation-delay: 0.5s;
-        }
-      `}</style>
     </PageLayout>
   );
 }

@@ -1,0 +1,142 @@
+/* Home Component Styles */
+@import '../styles/animations.css';
+
+/* Home Background */
+.home-bg {
+  background: linear-gradient(135deg, #E8F4FB 0%, #FFF0F1 40%, #E8FBF7 100%);
+  opacity: 0.8;
+}
+
+/* Home Card Wrapper */
+.home-card-wrapper {
+  padding: 16px 8px;
+}
+
+@media (min-width: 640px) {
+  .home-card-wrapper {
+    padding: 24px 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-card-wrapper {
+    padding: 32px 16px;
+  }
+}
+
+/* Home Card */
+.home-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+@media (min-width: 640px) {
+  .home-card {
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-card {
+    padding: 30px;
+  }
+}
+
+/* Home Logo */
+.home-logo {
+  background: #FFFFFF;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 16px;
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+}
+
+@media (min-width: 640px) {
+  .home-logo {
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    width: 56px;
+    height: 56px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-logo {
+    margin-bottom: 24px;
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* Home Input */
+.home-input {
+  width: 100%;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 6px;
+  padding: 10px 14px 10px 40px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+@media (min-width: 640px) {
+  .home-input {
+    border-radius: 8px;
+    padding: 12px 16px 12px 48px;
+    font-size: 16px;
+  }
+}
+
+.home-input::placeholder {
+  color: #A0AEC0;
+}
+
+.home-input:focus {
+  border-color: #4A9EE0;
+  box-shadow: 0 0 0 3px rgba(74, 158, 224, 0.1);
+  outline: none;
+}
+
+/* Home Primary Button */
+.home-primary-btn {
+  background: #4A9EE0;
+  color: #FFFFFF;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  width: 100%;
+  border: none;
+  transition: all 0.18s ease;
+  cursor: pointer;
+}
+
+@media (min-width: 640px) {
+  .home-primary-btn {
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+}
+
+.home-primary-btn:hover:not(:disabled) {
+  background: #3A8ED0;
+  transform: translateY(-1px);
+}
+
+.home-primary-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

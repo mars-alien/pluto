@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function FormCard({ children, title, subtitle }) {
   return (
-    <div className="w-full max-w-md min-w-[380px] mx-auto">
-      <div className="bg-white/70 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl p-8 relative overflow-hidden">
+    <div className="w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto">
+      <div className="bg-white/70 backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/20 shadow-2xl p-4 sm:p-6 lg:p-8 relative overflow-hidden">
         {/* Animated Mesh Gradient Background */}
         <div className="absolute inset-0 overflow-hidden rounded-3xl -z-10">
           {/* Base gradient matching the image */}
@@ -60,14 +60,14 @@ export default function FormCard({ children, title, subtitle }) {
         
         {/* Header */}
         {(title || subtitle) && (
-          <div className="text-center mb-8 relative z-10">
+          <div className="text-center mb-6 sm:mb-8 relative z-10">
             {title && (
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-800 via-purple-800 to-blue-800 bg-clip-text text-transparent mb-2">
+              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-gray-800 via-purple-800 to-blue-800 bg-clip-text text-transparent mb-2">
                 {title}
               </h1>
             )}
             {subtitle && (
-              <p className="text-gray-600 text-lg">{subtitle}</p>
+              <p className="text-gray-600 text-base sm:text-lg">{subtitle}</p>
             )}
           </div>
         )}
