@@ -58,6 +58,9 @@ export default function AppRoutes() {
             </PrivateRoute>
           }
         />
+        
+        {/* Catch-all route for 404s */}
+        <Route path="*" element={<Navigate to="/" replace />} />
        
       </Routes>
     </Router>
