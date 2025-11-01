@@ -230,10 +230,10 @@ exports.oauthGoogleCallback = async (req, res) => {
     const user = await User.findOrCreateOAuth('google', fakeProfile, email);
     const token = createToken(user);
 
-    return res.redirect(`${FRONTEND_URL}/#/oauth/callback?token=${token}`);
+    return res.redirect(`${FRONTEND_URL}/oauth/callback?token=${token}`);
   } catch (err) {
     console.error('Google OAuth callback error:', err?.response?.data || err.message);
-    return res.redirect(`${FRONTEND_URL}/#/login?error=oauth_failed`);
+    return res.redirect(`${FRONTEND_URL}/login?error=oauth_failed`);
   }
 };
 
@@ -287,9 +287,9 @@ exports.oauthGithubCallback = async (req, res) => {
     const user = await User.findOrCreateOAuth('github', fakeProfile, email);
     const token = createToken(user);
 
-    return res.redirect(`${FRONTEND_URL}/#/oauth/callback?token=${token}`);
+    return res.redirect(`${FRONTEND_URL}/oauth/callback?token=${token}`);
   } catch (err) {
     console.error('GitHub OAuth callback error:', err?.response?.data || err.message);
-    return res.redirect(`${FRONTEND_URL}/#/login?error=oauth_failed`);
+    return res.redirect(`${FRONTEND_URL}/login?error=oauth_failed`);
   }
 };

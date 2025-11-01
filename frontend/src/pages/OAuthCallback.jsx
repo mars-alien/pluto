@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 export default function OAuthCallback() {
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { setToken, user, loading } = useAuth();
   const navigate = useNavigate();
   const [status, setStatus] = useState('Processing...');
   const [tokenProcessed, setTokenProcessed] = useState(false);
 
   useEffect(() => {
-    // Extract token directly from URL hash
-    const hash = window.location.hash.substring(1);
-    const token = new URLSearchParams(hash.split('?')[1] || '').get('token');
-    const error = new URLSearchParams(hash.split('?')[1] || '').get('error');
+    // Extract token from URL search parameters (standard way)
+    const token = searchParams.get('token');
+    const error = searchParams.get('error');
 
     console.log('🔄 OAuth Callback - Processing...');
     console.log('📍 Current URL:', window.location.href);
@@ -42,7 +41,7 @@ export default function OAuthCallback() {
       setStatus('No authentication token found. Redirecting...');
       setTimeout(() => navigate('/'), 2000);
     }
-  }, [location, navigate, setToken, tokenProcessed]);
+  }, [searchParams, navigate, setToken, tokenProcessed]);
 
   // Watch for user authentication completion
   useEffect(() => {
@@ -52,7 +51,7 @@ export default function OAuthCallback() {
         setStatus('Welcome! Redirecting to dashboard...');
         // Use window.location.href for reliable redirect
         setTimeout(() => {
-          window.location.href = '/#/dashboard';
+          navigate('/dashboard');
         }, 500);
       } else {
         console.error('❌ Failed to authenticate user - no user data returned');

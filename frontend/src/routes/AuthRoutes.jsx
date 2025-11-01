@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
@@ -17,31 +17,6 @@ function PrivateRoute({ children }) {
 }
 
 export default function AppRoutes() {
-  // URL Masking Effect - Hides hash from browser address bar
-  React.useEffect(() => {
-    const handleHashChange = () => {
-      // Get current hash path (remove # character)
-      const hashPath = window.location.hash.substring(1);
-      
-      // Only update URL if we're not at root
-      if (hashPath && hashPath !== '/') {
-        // Replace URL in address bar without hash
-        window.history.replaceState(null, '', hashPath);
-      }
-    };
-
-    // Set up event listener for hash changes
-    window.addEventListener('hashchange', handleHashChange);
-    
-    // Initial call to set up URL masking
-    handleHashChange();
-
-    // Clean up event listener
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
-  }, []);
-
   return (
     <Router>
       <Routes>
