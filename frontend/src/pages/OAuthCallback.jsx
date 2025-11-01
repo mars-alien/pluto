@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; // Changed to useLocation
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 export default function OAuthCallback() {
-  const location = useLocation(); // Get location object
+  const location = useLocation();
   const { setToken } = useAuth();
   const navigate = useNavigate();
   const [status, setStatus] = useState('Processing...');
@@ -35,13 +35,14 @@ export default function OAuthCallback() {
       // Clear token from URL for security
       window.history.replaceState({}, document.title, window.location.pathname);
       
-      setTimeout(() => navigate('/dashboard'), 1000);
+      // Redirect immediately without delay
+      navigate('/dashboard');
     } else {
       console.warn('⚠️ No token found in callback');
       setStatus('No authentication token found. Redirecting...');
       setTimeout(() => navigate('/'), 2000);
     }
-  }, [location, navigate, setToken]); // Use location as dependency
+  }, [location, navigate, setToken]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-green-50">
