@@ -46,17 +46,20 @@ export default function OAuthCallback() {
 
   // Watch for user authentication completion
   useEffect(() => {
-    if (tokenProcessed && !loading && user) {
-      console.log('✅ User authenticated, redirecting to dashboard...');
-      setStatus('Welcome! Redirecting to dashboard...');
-      // Use window.location.href for reliable redirect
-      setTimeout(() => {
-        window.location.href = '/#/dashboard';
-      }, 500);
-    } else if (tokenProcessed && !loading && !user) {
-      console.error('❌ Failed to authenticate user');
-      setStatus('Authentication failed. Redirecting...');
-      setTimeout(() => navigate('/'), 2000);
+    if (tokenProcessed && !loading) {
+      if (user) {
+        console.log('✅ User authenticated:', user);
+        setStatus('Welcome! Redirecting to dashboard...');
+        // Use window.location.href for reliable redirect
+        setTimeout(() => {
+          window.location.href = '/#/dashboard';
+        }, 500);
+      } else {
+        console.error('❌ Failed to authenticate user - no user data returned');
+        console.log('Token processed:', tokenProcessed, 'Loading:', loading, 'User:', user);
+        setStatus('Authentication failed. Please try again.');
+        setTimeout(() => navigate('/'), 3000);
+      }
     }
   }, [tokenProcessed, loading, user, navigate]);
 

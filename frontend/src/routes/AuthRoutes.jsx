@@ -17,25 +17,17 @@ function PrivateRoute({ children }) {
 }
 
 export default function AppRoutes() {
-  // URL Masking Effect - Hides hash but preserves query parameters
+  // URL Masking Effect - Hides hash from browser address bar
   React.useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash.substring(1);
-      if (!hash) return;
+      // Get current hash path (remove # character)
+      const hashPath = window.location.hash.substring(1);
       
-      // Extract path and query parameters
-      const [path, query] = hash.split('?');
-      
-      // For OAuth callback, don't mask the URL
-      if (path.includes('oauth/callback') || path.includes('auth/callback')) {
-        return;
+      // Only update URL if we're not at root
+      if (hashPath && hashPath !== '/') {
+        // Replace URL in address bar without hash
+        window.history.replaceState(null, '', hashPath);
       }
-      
-      // Build new URL with query parameters
-      const newUrl = query ? `${path}?${query}` : path;
-      
-      // Replace URL in address bar
-      window.history.replaceState(null, '', newUrl);
     };
 
     // Set up event listener for hash changes
@@ -43,14 +35,6 @@ export default function AppRoutes() {
     
     // Initial call to set up URL masking
     handleHashChange();
-    
-    // Clean up token from URL after OAuth
-    const currentPath = window.location.pathname;
-    if (currentPath.includes('oauth/callback') || currentPath.includes('auth/callback')) {
-      setTimeout(() => {
-        window.history.replaceState({}, document.title, '/dashboard');
-      }, 1000);
-    }
 
     // Clean up event listener
     return () => {
