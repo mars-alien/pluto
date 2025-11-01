@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom'; // Changed to useLocation
 import { useAuth } from '../hooks/useAuth';
 
 export default function OAuthCallback() {
-  const [params] = useSearchParams();
+  const location = useLocation(); // Get location object
   const { setToken } = useAuth();
   const navigate = useNavigate();
   const [status, setStatus] = useState('Processing...');
 
   useEffect(() => {
+    // Parse hash fragment (e.g., #/oauth/callback?token=abc)
+    const hash = location.hash.substring(1); // Remove #
+    const params = new URLSearchParams(hash.split('?')[1] || '');
+    
     console.log('🔄 OAuth Callback - Processing...');
     console.log('📍 Current URL:', window.location.href);
     console.log('🔍 URL Params:', Object.fromEntries(params.entries()));
@@ -27,13 +31,17 @@ export default function OAuthCallback() {
       console.log('✅ Token received, logging in...');
       setStatus('Authentication successful! Redirecting...');
       setToken(token);
+      
+      // Clear token from URL for security
+      window.history.replaceState({}, document.title, window.location.pathname);
+      
       setTimeout(() => navigate('/dashboard'), 1000);
     } else {
       console.warn('⚠️ No token found in callback');
       setStatus('No authentication token found. Redirecting...');
       setTimeout(() => navigate('/'), 2000);
     }
-  }, [params, navigate, setToken]);
+  }, [location, navigate, setToken]); // Use location as dependency
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-green-50">
