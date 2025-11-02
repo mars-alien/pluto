@@ -1,24 +1,53 @@
-# 🌟 Pluto - Interactive Video Learning Platform
+# 🌟 Pluto - AI-Powered Interactive Learning Platform
 
 <div align="center">
 
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-plutogenz.onrender.com-blue?style=for-the-badge)](https://plutogenz.onrender.com/)
 [![GitHub](https://img.shields.io/badge/📂_Source_Code-GitHub-black?style=for-the-badge&logo=github)](https://github.com/mars-alien/pluto/)
 
-*A modern full-stack MERN application designed for interactive video-based learning with AI-powered personalization*
+*A comprehensive full-stack MERN application featuring AI-powered code assistance, VS Code-like editor, interactive video learning, and advanced performance analytics*
 
 ![React](https://img.shields.io/badge/React-19.1.1-61dafb?logo=react&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-Express-339933?logo=node.js&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-4.0-38bdf8?logo=tailwindcss&logoColor=white)
+![AI](https://img.shields.io/badge/AI-Copilot-ff6b6b?logo=openai&logoColor=white)
+![Monaco](https://img.shields.io/badge/Monaco-Editor-007ACC?logo=visualstudiocode&logoColor=white)
 
 </div>
 
 ## 🎯 Overview
 
-Pluto is a next-generation interactive learning platform that combines video content with synchronized coding environments. Built with modern technologies and designed for scalability, it features secure authentication, real-time email notifications, and a responsive UI optimized for educational experiences.
+Pluto is a next-generation AI-powered interactive learning platform that combines video content with synchronized coding environments, VS Code-like editor interface, and intelligent code assistance. Built with modern technologies and designed for scalability, it features enterprise-grade authentication, real-time AI chat support, comprehensive learning analytics, and a responsive UI optimized for educational experiences.
 
 ## ✨ Key Features
+
+### 🤖 **AI-Powered Code Assistant**
+- **Intelligent Copilot**: Real-time code analysis, suggestions, and debugging assistance
+- **Natural Language Processing**: ChatGPT-like interface for code explanation and help
+- **Smart Action Detection**: Automatic recognition of "explain", "analyze", "fix", and "generate" requests
+- **Context-Aware Responses**: Code-specific assistance with proper formatting and syntax highlighting
+
+### 💻 **VS Code-Inspired Editor Interface**
+- **Monaco Editor Integration**: Full-featured code editor with syntax highlighting and IntelliSense
+- **Multi-Mode Environment**: Seamless switching between coding and interactive drawing modes
+- **Collapsible Sidebar**: Files panel, AI Copilot panel, Run & Debug console, and Settings
+- **Drawing Canvas**: Interactive drawing tools with 15+ colors, shapes, and text capabilities
+- **File Management**: Hierarchical file tree with expand/collapse functionality
+
+### 📊 **Learning Performance Analytics**
+- **Comprehensive Dashboard**: Real-time tracking of learning progress and performance metrics
+- **Custom Visualizations**: CSS-based charts including bar graphs, pie charts, and activity heatmaps
+- **Achievement System**: Gamified learning with badges and milestone tracking
+- **Progress Monitoring**: Day streaks, hours learned, exercise completion, and success rates
+- **30-Day Activity Patterns**: Detailed learning behavior analysis and insights
+
+### 🎥 **Interactive Video Learning Platform**
+- **Synchronized Editor**: Video content paired with live code editing capabilities
+- **Bookmark System**: Save and organize important video moments and code snippets
+- **Wishlist Functionality**: Curate learning content and track desired courses
+- **Watch History**: Comprehensive tracking of learning progress and video consumption
+- **Seamless Integration**: Unified experience between video learning and code practice
 
 ### 🔐 **Enterprise-Grade Authentication**
 - **JWT-based Security**: 7-day token expiration with secure session management
@@ -35,14 +64,15 @@ Pluto is a next-generation interactive learning platform that combines video con
 ### 🎨 **Modern Frontend Experience**
 - **React 19**: Latest React features with Vite for lightning-fast development
 - **Tailwind CSS 4**: Utility-first styling with custom design system
-- **Framer Motion**: Smooth animations and micro-interactions
 - **Responsive Design**: Mobile-first approach with cross-device compatibility
+- **Component Architecture**: Reusable UI components with consistent design patterns
 
 ### 🏗️ **Scalable Architecture**
 - **RESTful APIs**: Clean, documented endpoints following industry standards
 - **MongoDB Atlas**: Cloud database with optimized indexing and TTL collections
-- **Middleware Pipeline**: CORS handling, rate limiting, and error management
-- **Modular Structure**: Separation of concerns with MVC architecture
+- **Advanced Schemas**: Multiple data models for users, performance, bookmarks, and learning analytics
+- **Middleware Pipeline**: CORS handling, rate limiting, and comprehensive error management
+- **MVC Structure**: Separation of concerns with modular, maintainable codebase
 
 ## 🛠️ Technology Stack
 
@@ -58,10 +88,27 @@ bcryptjs                │ Password hashing & security
 ### **Frontend Technologies**
 ```
 React 19 + Vite         │ UI library & build tool
+Monaco Editor           │ VS Code-like code editor with IntelliSense
 React Router v7         │ Client-side routing & navigation
 Tailwind CSS v4         │ Utility-first styling framework
-Framer Motion          │ Animation & gesture library
+React Context API       │ State management for user sessions
 Axios                  │ HTTP client with interceptors
+```
+
+### **AI & Analytics**
+```
+Natural Language Processing │ AI-powered code assistance & chat
+Custom CSS Charts          │ Data visualization without external libs
+Performance Analytics      │ Learning progress & behavior tracking
+Achievement System         │ Gamified learning with badges
+```
+
+### **Editor & Drawing Tools**
+```
+Monaco Editor API      │ Syntax highlighting & code completion
+HTML5 Canvas          │ Interactive drawing with multiple tools
+File Tree Management  │ Hierarchical project structure
+Multi-Mode Interface  │ Code editor + drawing canvas switching
 ```
 
 ### **Development & DevOps**
@@ -70,6 +117,7 @@ ESLint + Prettier      │ Code quality & formatting
 Nodemon               │ Development server with hot reload
 CORS                  │ Cross-origin resource sharing
 Rate Limiting         │ API protection & throttling
+Render Deployment     │ Production hosting with proper CORS
 ```
 
 ## 🚀 Quick Start Guide
@@ -171,8 +219,8 @@ pluto/
 │   ├── 📂 config/             # Database configuration
 │   ├── 📂 controllers/        # Route controllers & business logic
 │   ├── 📂 middleware/         # Authentication & validation middleware
-│   ├── 📂 models/            # MongoDB schemas (User, VerificationCode)
-│   ├── 📂 routes/            # API route definitions
+│   ├── 📂 models/            # MongoDB schemas (User, LearningPerformance, Wishlist, Bookmark)
+│   ├── 📂 routes/            # API route definitions (auth, dashboard, performance, wishlist)
 │   ├── 📂 utils/             # Email service & Passport configuration
 │   ├── 📄 server.js          # Express application entry point
 │   └── 📄 package.json       # Backend dependencies
@@ -181,14 +229,24 @@ pluto/
 │   ├── 📂 src/
 │   │   ├── 📂 api/           # Axios API client configuration
 │   │   ├── 📂 components/    # Reusable UI components
+│   │   │   ├── 📂 dashboard/ # Dashboard-specific components
+│   │   │   └── 📂 editor/    # Editor components (Sidebar, Canvas, Charts)
 │   │   ├── 📂 context/       # React Context for state management
 │   │   ├── 📂 hooks/         # Custom React hooks
-│   │   ├── 📂 pages/         # Route components (Login, Register, Dashboard)
-│   │   └── 📂 routes/        # Routing configuration
+│   │   ├── 📂 pages/         # Route components
+│   │   │   ├── 📄 Dashboard.jsx    # Main dashboard with video player
+│   │   │   ├── 📄 Editor.jsx       # VS Code-like editor interface
+│   │   │   ├── 📄 Progress.jsx     # Learning analytics dashboard
+│   │   │   ├── 📄 Wishlist.jsx     # Course wishlist management
+│   │   │   └── 📄 Login/Register   # Authentication pages
+│   │   ├── 📂 routes/        # Routing configuration
+│   │   └── 📂 services/      # API service functions
 │   ├── 📄 index.html         # HTML entry point
 │   ├── 📄 vite.config.js     # Vite build configuration
 │   └── 📄 package.json       # Frontend dependencies
 │
+├── 📄 render.yaml            # Render deployment configuration
+├── 📄 Dockerfile            # Container configuration
 └── 📄 README.md              # Project documentation
 ```
 
@@ -207,24 +265,73 @@ GET    /api/auth/github       # GitHub OAuth
 GET    /api/auth/callback     # OAuth callback handler
 ```
 
+### Dashboard Routes
+```http
+GET    /api/dashboard/stats   # Get dashboard statistics
+GET    /api/dashboard/videos  # Get video content
+POST   /api/dashboard/activity # Update user activity
+```
+
+### Performance Analytics Routes
+```http
+GET    /api/performance       # Get learning performance data
+POST   /api/performance/activity # Update weekly activity
+PUT    /api/performance/skills   # Update skill progress
+POST   /api/performance/achievements # Add new achievement
+PUT    /api/performance/courses     # Update course progress
+POST   /api/performance/quiz       # Record quiz performance
+POST   /api/performance/projects   # Update project completion
+```
+
+### Wishlist & Bookmark Routes
+```http
+GET    /api/wishlist          # Get user wishlist
+POST   /api/wishlist          # Add item to wishlist
+DELETE /api/wishlist/:id      # Remove item from wishlist
+GET    /api/bookmarks         # Get user bookmarks
+POST   /api/bookmarks         # Create new bookmark
+DELETE /api/bookmarks/:id     # Delete bookmark
+```
+
 ### Utility Routes
 ```http
 GET    /                     # API status
+GET    /health               # Health check endpoint
 ```
 
 ## 🎨 UI Components
 
 ### Core Components
 - **`FormCard`**: Reusable form container with styling
-- **`Header`**: Navigation with authentication states
+- **`Navbar`**: Advanced navigation with authentication states and user menu
 - **`OAuthButtons`**: Social login buttons (Google/GitHub)
 - **`PageLayout`**: Consistent page wrapper component
 
+### Editor Components
+- **`EditorSidebar`**: VS Code-style sidebar with collapsible panels (Files, Copilot, Run, Settings)
+- **`DrawingCanvas`**: Interactive drawing interface with tools, colors, and canvas actions
+- **`MonacoEditor`**: Code editor integration with syntax highlighting and IntelliSense
+
+### Dashboard Components
+- **`VideoPlayer`**: Interactive video player with controls and progress tracking
+- **`StatsCards`**: Performance metrics display cards
+- **`CourseGrid`**: Course listing with progress indicators
+- **`ActivityFeed`**: Recent learning activity timeline
+
+### Analytics Components
+- **`WeeklyActivityChart`**: Custom CSS bar chart for weekly learning hours
+- **`TimeDistributionChart`**: Pie chart using conic-gradient for time analysis
+- **`LearningPatternChart`**: Activity heatmap for 30-day learning patterns
+- **`AchievementBadges`**: Gamified achievement display system
+
 ### Pages & Routes
-- **`Home`**: Landing page with hero section
-- **`Login/Register`**: Authentication forms with validation
-- **`Dashboard`**: Protected user dashboard with features overview
-- **`OAuthCallback`**: OAuth redirect handler
+- **`Home`**: Landing page with hero section and feature showcase
+- **`Login/Register`**: Authentication forms with validation and OAuth integration
+- **`Dashboard`**: Main learning hub with video player and course access
+- **`Editor`**: VS Code-inspired coding environment with AI assistance
+- **`Progress`**: Comprehensive learning analytics and performance dashboard
+- **`Wishlist`**: Course wishlist management with filtering and organization
+- **`OAuthCallback`**: OAuth redirect handler with token processing
 
 ## 🚀 Deployment
 
@@ -282,22 +389,29 @@ npm run lint       # ESLint code checking
 - **Input Validation**: Comprehensive request validation
 - **Environment Variables**: Sensitive data protection
 
-## 🔮 Future Roadmap
+## 🔮 Roadmap & Achievements
 
-### Phase 1 - Core Learning Platform
-- [ ] Video player with synchronized code editor
-- [ ] Real-time code compilation and execution
-- [ ] Interactive coding challenges
+### ✅ **Completed Features**
+- [x] **Video Learning Platform**: Interactive video player with synchronized code editor
+- [x] **AI-Powered Assistant**: Intelligent copilot with natural language processing
+- [x] **VS Code Editor**: Full-featured editor with Monaco integration and drawing tools
+- [x] **Learning Analytics**: Comprehensive performance tracking with custom visualizations
+- [x] **Enterprise Authentication**: OAuth 2.0, JWT security, and email verification
+- [x] **Production Deployment**: Scalable hosting with proper CORS and static routing
 
-### Phase 2 - AI Integration
-- [ ] Machine learning model for personalized recommendations
-- [ ] AI-powered code suggestions and error detection
-- [ ] Intelligent progress tracking and analytics
+### 🚧 **In Development**
+- [ ] Real-time code compilation and execution environment
+- [ ] Advanced AI code suggestions with context awareness
+- [ ] Interactive coding challenges and assessments
+- [ ] Enhanced video synchronization with code checkpoints
 
-### Phase 3 - Advanced Features
-- [ ] Collaborative coding sessions
-- [ ] Live instructor sessions
-- [ ] Mobile application development
+### 🔮 **Future Enhancements**
+- [ ] **Machine Learning Integration**: Personalized learning path recommendations
+- [ ] **Collaborative Features**: Real-time collaborative coding sessions
+- [ ] **Live Sessions**: Interactive instructor-led coding workshops
+- [ ] **Mobile Application**: Native iOS/Android app with offline capabilities
+- [ ] **Advanced Analytics**: Predictive learning outcomes and skill gap analysis
+- [ ] **Community Features**: Peer code reviews and discussion forums
 
 ## 🤝 Contributing
 
